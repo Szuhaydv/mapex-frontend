@@ -15,7 +15,7 @@ const MyMaps = (props: any) => {
   const loading = props.value.loading
   const setLoading = props.value.setLoading
 
-  const mapContainer2 = useRef(null)
+  const mapContainer2 = useRef<any>(null)
   const map2 = useRef<any>(null)
   const [myMaps, setMyMaps] = useState<any>([])
 
@@ -37,19 +37,17 @@ const MyMaps = (props: any) => {
     }
   }, [isAddingMap, isEditing])
 
-  const mapOptions: any = {
-      container: mapContainer2.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [10, 7.0799],
-      zoom: 1.1,
-      minZoom: 1,
-  }
-
   useEffect(() => {
     if (isLoggedIn) {
       if (map2.current) return
       mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-      map2.current = new mapboxgl.Map(mapOptions)
+      map2.current = new mapboxgl.Map({
+        container: mapContainer2.current,
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [10, 7.0799],
+        zoom: 1.1,
+        minZoom: 1,
+    })
     }
   }, [myMaps]);
 

@@ -6,22 +6,20 @@ import mapboxgl from 'mapbox-gl'
 const ExploreMap = () => {
   const {state} = useLocation()
   const {map} = state
-  const mapContainer2 = useRef(null)
+  const mapContainer2 = useRef<any>(null)
   const map2 = useRef<any>(null)
   
   useEffect(() => {
 
-    const mapOptions: any = {
-      container: mapContainer2.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: [10, 7.0799],
-      zoom: 1.1,
-      minZoom: 1,
-  }
-
       if (map2.current) return
       mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-      map2.current = new mapboxgl.Map(mapOptions);
+      map2.current = new mapboxgl.Map({
+        container: mapContainer2.current,
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [10, 7.0799],
+        zoom: 1.1,
+        minZoom: 1,
+    });
       const markerOptions: any = { scale: '0'}
       map.landmarks.forEach((landmark: any) => {
         const temp = new mapboxgl.Marker(markerOptions)

@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl'
 import axios from "axios";
 
 const PopularPinmaps = () => {
-  const mapContainer = useRef(null)
+  const mapContainer = useRef<any>(null)
   const map: any = useRef(null)
 
   const [popularMaps, setPopularMaps] = useState<any>([])
@@ -28,22 +28,21 @@ const PopularPinmaps = () => {
       mapRefs.current.push(el)
     }
   }
-  const mapOptions: any = {
-    container: mapContainer.current,
-    style: 'mapbox://styles/mapbox/streets-v12',
-    center: [10, 7.0799],
-    zoom: 1,
-    minZoom: 1,
-    projection: {
-      name: 'mercator'
-    }
-  }
 
   useEffect(() => {
     if (map.current) return
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
     if (map.current === null){
-      map.current = new mapboxgl.Map(mapOptions);
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [10, 7.0799],
+        zoom: 1,
+        minZoom: 1,
+        projection: {
+          name: 'mercator'
+        }
+      });
     }
   }, []);
   const [selectedMap, setSelectedMap] = useState(-1)

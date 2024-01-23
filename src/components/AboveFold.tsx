@@ -332,19 +332,19 @@ const AboveFold = () => {
             </div>
             <section className='maps position-relative'>
                 <div ref={square1} style={{left:"15%", top: "15%", zIndex: "1", opacity: "0"}} className='square1 shadow-lg d-flex align-items-center position-absolute w-50'>
-                    <img src = "src/assets/illustration1.svg" alt="People serching up what's popular" />
+                    <img src="/assets/illustration1.svg" alt="People serching up what's popular" />
                 </div>
                 <div ref={square2} style={{zIndex: "2", left:"20%", top: "20%"}} className='square2 d-flex shadow-lg align-items-end position-absolute w-50'>
-                    <img src = "src/assets/illustration2.svg" alt="Image of famous landmarks" />
+                    <img src="/assets/illustration2.svg" alt="Image of famous landmarks" />
                 </div>
                 <div ref={square3} style={{zIndex: "3", left:"25%", top: "25%"}} className='square3 shadow-lg position-absolute w-50'>
-                    <img src = "src/assets/illustration3.png" alt="Image of a map with the 7 wonders" />
+                    <img src="/assets/illustration3.png" alt="Image of a map with the 7 wonders" />
                 </div>
                 <div ref={square4} style={{zIndex: "4", left:"30%", top: "30%"}} className='square4 shadow-lg position-absolute w-50'>
-                    <img src = "src/assets/illustration4.svg" alt="Image of people ready to travel" />
+                    <img src="/assets/illustration4.svg" alt="Image of people ready to travel" />
                 </div>
                 <div ref={square5} style={{zIndex: "5", left:"35%", top: "35%", opacity: "0"}} className='square5 shadow-lg position-absolute w-50'>
-                    <img src = "src/assets/illustration5.svg" alt="Image of famous landmarks" />
+                    <img src ="/assets/illustration5.svg" alt="Image of famous landmarks" />
                 </div>
                 <div className="slider-control position-absolute d-flex justify-content-center gap-4 w-50">
                     <button ref={addToRefs} onClick={(e) => calcAnimation(e)} className="btn btn1 selected-button d-flex align-items-center justify-content-center">?</button>

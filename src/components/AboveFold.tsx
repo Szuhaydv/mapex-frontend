@@ -11,8 +11,8 @@ const AboveFold = () => {
     let firstSquare: number = 0
     let lastSquare: number = 4
 
-    const buttonRefs: RefObject<HTMLButtonElement>[] = useRef([])
-    const addToRefs = (el: RefObject<HTMLButtonElement>) => {
+    const buttonRefs: any = useRef([])
+    const addToRefs = (el: any) => {
         if(el && !buttonRefs.current.includes(el)) {
             buttonRefs.current.push(el)
         }
@@ -120,7 +120,7 @@ const AboveFold = () => {
         }, 1000)
     }
 
-    const calcAnimation = (e) => {
+    const calcAnimation = (e: any) => {
         clearInterval(autoSlide)
         setTimeout(() => {
             autoSlide = intervalSetter()
@@ -224,14 +224,14 @@ const AboveFold = () => {
     }
     let autoSlide = intervalSetter()
     
-    const iconRefs = useRef([])
-    const addToIcons = (el) => {
+    const iconRefs = useRef<any>([])
+    const addToIcons = (el: any) => {
         if(el && !iconRefs.current.includes(el)) {
             iconRefs.current.push(el)
         }
     }
     let currentMapIcon = 0
-    const changeMapIcon = (number) => {
+    const changeMapIcon = (number: any) => {
         if (number == currentMapIcon) return;
         iconRefs.current[number].classList.remove('bi-geo')
         iconRefs.current[number].classList.add('bi-map')
@@ -239,25 +239,26 @@ const AboveFold = () => {
         iconRefs.current[currentMapIcon].classList.add('bi-geo')
         currentMapIcon = number
     }
-    const connectLineRefs = useRef([])
-    const addToLines = (el) => {
+    const connectLineRefs = useRef<any>([])
+    const addToLines = (el: any) => {
         if (el && !connectLineRefs.current.includes(el)) {
             connectLineRefs.current.push(el)
         }
     }
-    const connectColor = (start, end, string) => {
+    const connectColor = (start: any, end: any, string: any) => {
         if (string === 'black') {
-            connectLineRefs.current.slice(start,end).forEach((element) => {
+            connectLineRefs.current.slice(start,end).forEach((element: any) => {
                 element.classList.remove('connect-line-inblack')
             })
         } else if (string === 'white') {
-            connectLineRefs.current.slice(start,end).forEach((element) => {
+            connectLineRefs.current.slice(start,end).forEach((element: any) => {
                 element.classList.add('connect-line-inblack')
             })
         }
     }
     useEffect(() => {
-        const sectionHeight = document.getElementById('home')?.offsetHeight - 70
+        const getSection: any = document.getElementById('home')?.offsetHeight
+        const sectionHeight = getSection - 70 
         const remSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
         const iconSize = 3 * remSize
         const lineSize = (sectionHeight - 70) * 0.11
@@ -314,7 +315,7 @@ const AboveFold = () => {
         <div className="d-flex above-fold" id="home">
             <div className="site-sidebar">
                 <a href="#home">
-                    <i ref={addToIcons} className="bi bi-map map-icon h1" onClick={() => scrollPosition()}></i>
+                    <i ref={addToIcons} className="bi bi-map map-icon h1"></i>
                 </a>
                 <div ref={addToLines} className="connect-line"></div>
                 <a href="#popular-pinmaps">

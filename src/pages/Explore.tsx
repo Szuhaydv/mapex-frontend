@@ -1,25 +1,23 @@
 import axios from "axios"
 import { useEffect, useState, useRef } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Spinner from "../components/Spinner"
 
-const Explore = (props) => {
+const Explore = (props: any) => {
   const loading = props.value.loading
   const setLoading = props.value.setLoading
-  const [input, setInput] = useState(null)
   const [exploreMaps, setExploreMaps] = useState([])
   const [hashtags, setHashtags] = useState([])
   const [filteredExploreMaps, setFilteredExploreMaps] = useState([])
-  const searchbarRef = useRef(null)
-  const navigate = useNavigate()
-  const hashtagRefs = useRef([])
-  const addToHashtagRefs = (e) => {
+  const searchbarRef = useRef<any>(null)
+  const hashtagRefs = useRef<any>([])
+  const addToHashtagRefs = (e: any) => {
     if (e && !hashtagRefs.current.includes(e)) {
       hashtagRefs.current.push(e)
     }
   }
-  const pinsRef = useRef(null)
-  const likesRef = useRef(null)
+  const pinsRef = useRef<any>(null)
+  const likesRef = useRef<any>(null)
 
   useEffect(() => {
     setLoading(true)
@@ -28,13 +26,13 @@ const Explore = (props) => {
         .then((res) => {
           setExploreMaps(res.data.data)
           setFilteredExploreMaps(res.data.data)
-          let tempArray = []
-          res.data.data.forEach((map) => {
-            map.tags.forEach((tag) => {
+          let tempArray: any[] = []
+          res.data.data.forEach((map: any) => {
+            map.tags.forEach((tag: any) => {
               tempArray = [...tempArray, tag]
             })
           })
-          const finalArray = [...new Set(tempArray)]
+          const finalArray: any = [...new Set(tempArray)]
           setHashtags(finalArray)
           setLoading(false)
         })
@@ -44,15 +42,13 @@ const Explore = (props) => {
         })
   }, [])
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: any) => {
     if (e.keyCode === 13 || e.key === "Enter") {
       handleSearch()
-    } else {
-      setInput(searchbarRef.current.value)
     }
   }
   const handleSearch = () => {
-    const tempArray = exploreMaps.filter((map) => map.title.toLowerCase().includes(searchbarRef.current.value.toLowerCase()))
+    const tempArray = exploreMaps.filter((map: any) => map.title.toLowerCase().includes(searchbarRef.current.value.toLowerCase()))
     setFilteredExploreMaps(tempArray)
     searchbarRef.current.value = "" 
   }
@@ -60,7 +56,7 @@ const Explore = (props) => {
     setFilteredExploreMaps(exploreMaps)
   }
   const [selectedTag, setSelectedTag] = useState(-1)
-  const selectTag = (index) => {
+  const selectTag = (index: any) => {
     if (index === selectedTag) {
       hashtagRefs.current[index].classList.remove('selected-tag')
       setSelectedTag(-1)
@@ -73,24 +69,24 @@ const Explore = (props) => {
     setSelectedTag(index)
   }
   const [pinsLikesUntouched, setPinsLikesUntouched] = useState([true, true])
-  const likesInputChange = (e) => {
+  const likesInputChange = (e: any) => {
     likesRef.current.innerText = e.target.value
     setPinsLikesUntouched([pinsLikesUntouched[0], false])
   }
-  const pinsInputChange = (e) => {
+  const pinsInputChange = (e: any) => {
     pinsRef.current.innerText = e.target.value
     setPinsLikesUntouched([false, pinsLikesUntouched[1]])
   }
-  const filterOptions = (map) => {
+  // const filterOptions = (map: any) => {
     
-        (pinsLikesUntouched[0] ? true : map.landmarks.length > +pinsRef.current.innterText) &&
-        (pinsLikesUntouched[1] ? true : map.numberOfLikes > +likesRef.current.innerText) &&
-        (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
+  //       (pinsLikesUntouched[0] ? true : map.landmarks.length > +pinsRef.current.innterText) &&
+  //       (pinsLikesUntouched[1] ? true : map.numberOfLikes > +likesRef.current.innerText) &&
+  //       (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
 
 
-  }
+  // }
   const handleFilteredSearch = () => {
-    const tempArray = exploreMaps.filter((map) => {
+    const tempArray = exploreMaps.filter((map: any) => {
       return (pinsLikesUntouched[0] ? true : map.landmarks.length >= +pinsRef.current.innerHTML) &&
       (pinsLikesUntouched[1] ? true : map.numberOfLikes >= +likesRef.current.innerHTML) &&
       (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
@@ -141,7 +137,7 @@ const Explore = (props) => {
               <li className="outlier-li">
                 <button onClick={() => handleReset()} className="btn btn-danger back-button"><i className="bi bi-arrow-counterclockwise"></i> Reset</button>
               </li> :
-              filteredExploreMaps.map((map) => {
+              filteredExploreMaps.map((map: any) => {
                 return(
                   <li key={map._id}>
                     <Link to={`/explore/${map._id}`} state={{map}}>
@@ -149,7 +145,7 @@ const Explore = (props) => {
                       <div className='explore-map-info'>
                         <h3>{map.title}</h3>
                         <div className="tags">
-                          {map.tags.map((tag, index) => {
+                          {map.tags.map((tag: any, index: any) => {
                             return(
                               <p key={index}>#{tag}</p>
                             )

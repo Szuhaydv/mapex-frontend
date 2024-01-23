@@ -1,58 +1,53 @@
-import { useState, useEffect, useRef, MutableRefObject } from "react"
+import { useState, useEffect, useRef } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl' 
 import axios from "axios";
 
 const PopularPinmaps = () => {
   const mapContainer = useRef(null)
-  const map = useRef(null)
-  const [lng, setLng] = useState(10)
-  const [lat, setLat] = useState(7.0799)
-  const [zoom, setZoom] = useState(1)
+  const map: any = useRef(null)
 
-  const [loading, setLoading] = useState(false)
-  const [popularMaps, setPopularMaps] = useState([])
-  const [currentLandmarks, setCurrentLandmarks] = useState([])
+  const [popularMaps, setPopularMaps] = useState<any>([])
+  const [currentLandmarks, setCurrentLandmarks] = useState<any>([])
 
 
   useEffect(() => {
-    setLoading(true)
     axios
       .get('http://localhost:5656/api/topthree', { withCredentials: true })
       .then((res) => {
         setPopularMaps(res.data.data)
-        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
-        setLoading(false)
       })
   }, [])
   
-  const mapRefs = useRef([])
-  const addMapRef = (el) => {
+  const mapRefs = useRef<any>([])
+  const addMapRef = (el: any) => {
     if(el && !mapRefs.current.includes(el)) {
       mapRefs.current.push(el)
     }
   }
+  const mapOptions: any = {
+    container: mapContainer.current,
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [10, 7.0799],
+    zoom: 1,
+    minZoom: 1,
+    projection: {
+      name: 'mercator'
+    }
+  }
+
   useEffect(() => {
     if (map.current) return
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
     if (map.current === null){
-      map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [lng, lat],
-        zoom: zoom,
-        minZoom: 1,
-        projection: {
-          name: 'mercator'
-        }
-      });
+      map.current = new mapboxgl.Map(mapOptions);
     }
   }, []);
   const [selectedMap, setSelectedMap] = useState(-1)
-  const selectMap = (mapNumber) => {
+  const selectMap = (mapNumber: any) => {
     if (mapNumber == selectedMap) return;
     if (selectedMap != -1) {
       mapRefs.current[selectedMap].classList.remove('selected-card')
@@ -60,20 +55,22 @@ const PopularPinmaps = () => {
     mapRefs.current[mapNumber].classList.add('selected-card')
     setSelectedMap(mapNumber)
   }
-  const selectLandmarks = (mapNumber) => {
+  const selectLandmarks = (mapNumber: any) => {
     if (currentLandmarks) {
-      currentLandmarks.forEach((landmark) => {
+      currentLandmarks.forEach((landmark: any) => {
         landmark.remove()
       })
     }
     
     setCurrentLandmarks([])
-    const tempArray = []
-    popularMaps[mapNumber].landmarks.forEach((landmark) => {
-      const temp = new mapboxgl.Marker({ scale: '0' })
+    const tempArray: any[] = []
+    const markerOptions: any = { scale: '0' }
+    popularMaps[mapNumber].landmarks.forEach((landmark: any) => {
+      const temp = new mapboxgl.Marker(markerOptions)
         .setLngLat([landmark.longitude,landmark.latitude])
         .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
         .addTo(map.current)
+        //@ts-ignore
         .addClassName('background-icon')
       temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
       tempArray.push(temp)
@@ -91,7 +88,7 @@ const PopularPinmaps = () => {
             </div>
             <img className='blob' src="src/assets/blob.svg" alt="blog background" />
             <ul className="position-absolute">
-              {popularMaps.map((map, index) => {
+              {popularMaps.map((map: any, index: any) => {
                 return(
                   <li ref={addMapRef} onClick={() => {
                     selectMap(index)
@@ -103,7 +100,7 @@ const PopularPinmaps = () => {
                     <div className="title-author">
                       <h3>{map.title}</h3>
                       <div className="tags">
-                        {map.tags.map((tag, index) => {
+                        {map.tags.map((tag: any, index: any) => {
                           return(
                             <p key={index}>#{tag}</p>
                           )

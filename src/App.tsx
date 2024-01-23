@@ -9,7 +9,6 @@ import Blog from './pages/Blog'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import ExploreMap from './pages/ExploreMap'
-import AddMap from './pages/AddMap'
 
 
 function App() {
@@ -20,13 +19,12 @@ function App() {
     <>
       <Header value={{setLoading, isLoggedIn, setIsLoggedIn}}/>
       <Routes>
-        <Route exact path='/' element={<Home/>}></Route>
-        <Route exact path='/explore' element={<Explore value={{loading, setLoading}}/>}></Route>
-        <Route ecact path='/mymaps' element={<MyMaps value={{username, isLoggedIn, loading, setLoading}}/>}></Route>
-        <Route exact path='/blog' element={<Blog/>}></Route>
-        <Route exact path='/login' element={<Login value={{isLoggedIn, setIsLoggedIn, loading, setLoading, setUsername}} />}></Route>
-        <Route exact path='/register' element={<Register value={{loading, setLoading}}/>}></Route>
-        <Route exact path='/mymaps/add' element={<AddMap />}></Route>
+        <Route path='/' element={<Home/>}></Route>
+        <Route path='/explore' element={<Explore value={{loading, setLoading}}/>}></Route>
+        <Route path='/mymaps' element={<MyMaps value={{username, isLoggedIn, loading, setLoading}}/>}></Route>
+        <Route path='/blog' element={<Blog/>}></Route>
+        <Route path='/login' element={<Login value={{isLoggedIn, setIsLoggedIn, loading, setLoading, setUsername}} />}></Route>
+        <Route path='/register' element={<Register value={{loading, setLoading}}/>}></Route>
         <Route path='/explore/:id' element={<ExploreMap/>}></Route>
       </Routes>
       <Footer/>

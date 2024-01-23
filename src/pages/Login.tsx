@@ -3,19 +3,17 @@ import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
 
-const Login = (props) => {
+const Login = (props: any) => {
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const loading = props.value.loading
   const setLoading = props.value.setLoading
-  const isLoggedIn = props.value.isLoggedIn
   const setIsLoggedIn = props.value.setIsLoggedIn
   const setUser = props.value.setUsername
 
-  const errMessageRef = useRef(null)
-  const handleLogin = (e) => {
+  const errMessageRef = useRef<any>(null)
+  const handleLogin = (e: any) => {
     e.preventDefault()
     if (username && password) {
       const loginCred = {
@@ -24,13 +22,13 @@ const Login = (props) => {
       }
       axios
         .post(`http://localhost:5656/login`, loginCred, {withCredentials: true })
-            .then((res) => {
+            .then(() => {
               setLoading(false)
               setUser(username)
               setIsLoggedIn(true)
               navigate("/")
             })
-            .catch((err) => {
+            .catch(() => {
               errMessageRef.current.style.animation = 'disappear 2s forwards'
               setLoading(false)
             })

@@ -4,14 +4,13 @@ import { useState } from 'react'
 import axios from 'axios'
 
 
-const Register = (props) => {
+const Register = (props: any) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
-  const loading = props.value.loading
   const setLoading = props.value.setLoading
   const navigate = useNavigate()
-  const handleRegister = (e) => {
+  const handleRegister = (e: any) => {
     e.preventDefault()
     if (username && password && password2 && password == password2) {
       const registerCred = {
@@ -19,7 +18,7 @@ const Register = (props) => {
         password
       }
       axios
-        .post(`http://localhost:5656/register`, registerCred, { withCredentials: true, crossDomain: true, credentials: "include" })
+        .post(`http://localhost:5656/register`, registerCred, { withCredentials: true })
             .then(() => {
               setLoading(false)
               navigate("/login")

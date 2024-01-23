@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 
 const BlogContact = () => {
-  const copyText = useRef(null)
-  const successMessage = useRef(null)
+  const copyText = useRef<any>(null)
+  const successMessage = useRef<any>(null)
   const copyTextfunction = () => {
     navigator.clipboard.writeText(copyText.current.innerText)
     successMessage.current.style.animation = 'disappear 2s forwards'
@@ -16,15 +16,15 @@ const BlogContact = () => {
       textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
     }
   }, []);
-  const postRefs = useRef([])
-  const addToPosts = (el) => {
+  const postRefs = useRef<any>([])
+  const addToPosts = (el: any) => {
     if (el && !postRefs.current.includes(el)) {
       postRefs.current.push(el)
     }
   }
   let currentSelected = 0
-  const leftArrow = useRef(null)
-  const rightArrow = useRef(null)
+  const leftArrow = useRef<any>(null)
+  const rightArrow = useRef<any>(null)
   const rightClick = () => {
     if (rightArrow.current.style.opacity === '0') return;
     if (currentSelected < postRefs.current.length - 3) {

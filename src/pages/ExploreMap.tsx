@@ -1,32 +1,34 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl' 
 
-const ExploreMap = (props) => {
+const ExploreMap = () => {
   const {state} = useLocation()
   const {map} = state
   const mapContainer2 = useRef(null)
-  const map2 = useRef(null)
-  const [lng, setLng] = useState(10)
-  const [lat, setLat] = useState(7.0799)
-  const [zoom, setZoom] = useState(1.1)
+  const map2 = useRef<any>(null)
   
   useEffect(() => {
+
+    const mapOptions: any = {
+      container: mapContainer2.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [10, 7.0799],
+      zoom: 1.1,
+      minZoom: 1,
+  }
+
       if (map2.current) return
       mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-      map2.current = new mapboxgl.Map({
-        container: mapContainer2.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [lng, lat],
-        zoom: zoom,
-        minZoom: 1,
-      });
-      map.landmarks.forEach((landmark) => {
-        const temp = new mapboxgl.Marker({ scale: '0' })
+      map2.current = new mapboxgl.Map(mapOptions);
+      const markerOptions: any = { scale: '0'}
+      map.landmarks.forEach((landmark: any) => {
+        const temp = new mapboxgl.Marker(markerOptions)
           .setLngLat([landmark.longitude,landmark.latitude])
           .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
           .addTo(map2.current)
+          //@ts-ignore
           .addClassName('background-icon')
         temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
       })
@@ -41,7 +43,7 @@ const ExploreMap = (props) => {
         <div className="explore-tags">
           <h3 className="actual-h3">Tags:</h3>
           <div className="hashtags">
-            {map.tags.map((tag, index) => {
+            {map.tags.map((tag: any, index: any) => {
               return(
                 <p key={index} >#{tag}</p>
               )
@@ -76,7 +78,7 @@ const ExploreMap = (props) => {
           <div className="info-landmarks position-relative">
             <h2>– LANDMARKS –</h2>
             <ul className="landmarks-list d-flex flex-column">
-              {map.landmarks.map((landmark) => {
+              {map.landmarks.map((landmark: any) => {
                 return(
                   <li key={landmark.title}>
                     <img src={landmark.icon} alt="" />

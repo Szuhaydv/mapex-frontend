@@ -1,15 +1,15 @@
 import { useRef } from "react"
 
 const Blog = () => {
-  const postRefs = useRef([])
-  const addToPosts = (el) => {
+  const postRefs = useRef<any>([])
+  const addToPosts = (el: HTMLLIElement) => {
     if (el && !postRefs.current.includes(el)) {
       postRefs.current.push(el)
     }
   }
   let currentSelected = 0
-  const leftArrow = useRef(null)
-  const rightArrow = useRef(null)
+  const leftArrow = useRef<any>(null)
+  const rightArrow = useRef<any>(null)
   const rightClick = () => {
     if (rightArrow.current.style.opacity === '0') return;
     if (currentSelected < postRefs.current.length - 3) {

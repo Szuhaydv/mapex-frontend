@@ -2,13 +2,13 @@ import { Link } from "react-router-dom"
 import { useRef } from "react"
 import axios from "axios"
 
-const Header = (props) => {
+const Header = (props: any) => {
   const isLoggedIn = props.value.isLoggedIn
   const setIsLoggedIn = props.value.setIsLoggedIn
   const setLoading = props.value.setLoading
-  const logoutArea = useRef(null)
-  const body = document.querySelector('body')
-  body.onclick = (e) => {
+  const logoutArea = useRef<any>(null)
+  const body: any = document.querySelector('body')
+  body.onclick = (e: any) => {
     if (e.target.classList[0] === 'profile-img') {
       return
     } else {
@@ -18,7 +18,7 @@ const Header = (props) => {
       return
     }
   }
-  const showLogout = (show) => {
+  const showLogout = (show: any) => {
     if (show === 'hide') {
       if(logoutArea.current.style.opacity === '1') {
         logoutArea.current.style.opacity = '0'
@@ -64,7 +64,7 @@ const Header = (props) => {
         </Link>
         { isLoggedIn ? 
           <div className="profile-picture position-relative">
-            <img className="profile-img" onClick={() => showLogout()} src="https://img.freepik.com/free-vector/businessman-working-laptop-computer-office-3d-character-isolated-white-background_40876-3756.jpg?w=1800&t=st=1704478938~exp=1704479538~hmac=07d104c95534b33d677f49f4ccb65d169f95ff1f1af3f6ea3dee419e85fa7665" alt="" />
+            <img className="profile-img" onClick={() => showLogout('none')} src="https://img.freepik.com/free-vector/businessman-working-laptop-computer-office-3d-character-isolated-white-background_40876-3756.jpg?w=1800&t=st=1704478938~exp=1704479538~hmac=07d104c95534b33d677f49f4ccb65d169f95ff1f1af3f6ea3dee419e85fa7665" alt="" />
             <div ref={logoutArea} style={{opacity: '0'}} className="test-box position-absolute d-flex align-items-center justify-content-center">
               <button onClick={() => handleLogout()} >Sign out</button>
             </div>            

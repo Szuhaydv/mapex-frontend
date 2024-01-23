@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
-const AddMapSidebar = (props) => {
+const AddMapSidebar = (props: any) => {
   const mapInfo = props.value.mapInfo
   const setMapInfo = props.value.setMapInfo
-  const [addMapTags, setAddMapTags] = useState([])
+  const [addMapTags, setAddMapTags] = useState<any>([])
   const handleTagAdd = () => {
     if (addMapTags.length != 0) {
       if (addMapTags[addMapTags.length - 1].name === 'hashtag') return
@@ -11,28 +11,28 @@ const AddMapSidebar = (props) => {
     }
     setAddMapTags([...addMapTags, { id: addMapTags.length, name: 'hashtag'}])
   }
-  const noSpace = (e) => {
+  const noSpace = (e: any) => {
     if (e.keyCode === 32) {
       e.preventDefault()
     }
   }
   
-  const handleTagEdit = (e, index) => {
-    const tempArray = addMapTags.filter((tag) => tag.id != addMapTags[index].id)
+  const handleTagEdit = (e: any, index: any) => {
+    const tempArray = addMapTags.filter((tag: any) => tag.id != addMapTags[index].id)
     setAddMapTags([...tempArray, { name: e.target.value.replace(/[^0-9A-Z]+/gi,""), id: tempArray.length}])
   }
-  const handleTagDelete = (index) => {
-    const tempArray = addMapTags.filter((tag) => tag.id != addMapTags[index].id)
+  const handleTagDelete = (index: any) => {
+    const tempArray = addMapTags.filter((tag: any) => tag.id != addMapTags[index].id)
     setAddMapTags([...tempArray])
   }
-  const handleURLChange = (e) => {
+  const handleURLChange = (e: any) => {
     const temp = {...mapInfo}
     temp.coverImage = e.target.value
     setMapInfo(temp)
   }
   useEffect(() => {
     const temp = {...mapInfo}
-    const tempArray = addMapTags.filter((tag) => tag.name != 'hashtag').map((tag) => tag.name)
+    const tempArray = addMapTags.filter((tag: any) => tag.name != 'hashtag').map((tag: any) => tag.name)
     temp.tags = tempArray
     setMapInfo(temp)
   }, [addMapTags])
@@ -51,7 +51,7 @@ const AddMapSidebar = (props) => {
         <p className="ms-1">(2)</p>
       </div>
       <ul className="add-map-tags d-flex flex-column align-items-center p-0">
-        {addMapTags.map((tag, index) => {
+        {addMapTags.map((tag: any, index: any) => {
           return(
             <li key={tag.id} className="d-flex position-relative">
               <input onChange={(e) => handleTagEdit(e, index)} onKeyDown={(e) => noSpace(e)} type="text" defaultValue={`#${tag.name}`}/>

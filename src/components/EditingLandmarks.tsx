@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import mapboxgl from "mapbox-gl"
 
-const EditingLandmarks = (props) => {
+const EditingLandmarks = (props: any) => {
   const mapInfo = props.value.mapInfo
   const setMapInfo = props.value.setMapInfo
   const mapToEdit = props.value.mapToEdit
@@ -9,10 +9,10 @@ const EditingLandmarks = (props) => {
   const isCanceling = props.value.isCanceling
   const setToDeleteEdit = props.value.setToDeleteEdit
 
-  const tempArray = mapToEdit.landmarks.map((landmark, index) => {
+  const tempArray = mapToEdit.landmarks.map((landmark: any, index: number) => {
     return {title: landmark.title, id: index, lng: landmark.longitude, lat: landmark.latitude}
   })
-  const [editMapLandmarks, setEditMapLandmarks] = useState([])
+  const [editMapLandmarks, setEditMapLandmarks] = useState<any>([])
   const [refEditMapLandmarks, setRefEditMapLandmarks] = useState([])
 
   const [colorName, setColorName] = useState(mapToEdit.markerColor || "rgb(73,99,242)")
@@ -21,7 +21,7 @@ const EditingLandmarks = (props) => {
     setEditMapLandmarks(tempArray)
   }, [])
 
-  const markerOptions = {}
+  const markerOptions: any = {}
   if (mapToEdit.subscription === 'admin') {
     markerOptions.scale = '0'
   } else {
@@ -31,20 +31,21 @@ const EditingLandmarks = (props) => {
   }
 
   useEffect(() => {
-    const tempLandmarkArray = []
+    const tempLandmarkArray: any = []
   //   // can be optimized by removing only the changed marker ?
     if (refEditMapLandmarks.length != 0) {
-      refEditMapLandmarks.forEach((landmark) => {
+      refEditMapLandmarks.forEach((landmark: any) => {
         landmark.remove()
       })
       setRefEditMapLandmarks([])
     }
-    editMapLandmarks.forEach((landmark) => {
+    editMapLandmarks.forEach((landmark: any) => {
       if (landmark.title != "Title" && landmark.lng != "lng" && landmark.lat != "lat") {
         const temp = new mapboxgl.Marker(markerOptions)
           .setLngLat([landmark.lng,landmark.lat])
           .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
           .addTo(map2.current)
+          //@ts-ignore
           .addClassName('background-icon')
         tempLandmarkArray.push(temp)
       }
@@ -54,8 +55,8 @@ const EditingLandmarks = (props) => {
     const tempInfo = {...mapInfo}
     tempInfo.markerColor = colorName
     tempInfo.landmarks = editMapLandmarks
-      .filter((landmark) => landmark.title != "Title" && landmark.lng != "lng" && landmark.lat != "lat")
-      .map((landmark) => {
+      .filter((landmark: any) => landmark.title != "Title" && landmark.lng != "lng" && landmark.lat != "lat")
+      .map((landmark: any) => {
         return {
           title: landmark.title,
           longitude: landmark.lng,
@@ -67,19 +68,19 @@ const EditingLandmarks = (props) => {
   }, [editMapLandmarks, colorName])
 
   useEffect(() => {
-    refEditMapLandmarks.forEach((landmark) => {
+    refEditMapLandmarks.forEach((landmark: any) => {
       landmark.remove()
     })
   }, [isCanceling])
 
   const handleNewMapAdd = () => {
     if (editMapLandmarks.length != 0) {
-      const lastItem = editMapLandmarks[editMapLandmarks.length-1]
+      const lastItem: any = editMapLandmarks[editMapLandmarks.length-1]
       if (lastItem.title === "Title" || lastItem.lng === "lng" || lastItem.lat === "lat") return
     }
     setEditMapLandmarks([...editMapLandmarks, { id: editMapLandmarks.length, title: "Title", lng: "lng", lat: "lat"}])
   }
-  const handleTitleChange = (e, index) => {
+  const handleTitleChange = (e: any, index: any) => {
     const tempArray1 = editMapLandmarks.slice(0, index)
     const tempArray2 = editMapLandmarks.slice(index+1, editMapLandmarks.length)
     let changedMap = editMapLandmarks.slice(index, index+1)
@@ -88,9 +89,9 @@ const EditingLandmarks = (props) => {
   }
 
   let selectingCoordinates = false
-  const selectCoordinates = (index) => {
+  const selectCoordinates = (index: any) => {
     if (map2.current != null) {
-      map2.current.on('click', (e) => {
+      map2.current.on('click', (e: any) => {
         if (selectingCoordinates === true) {
           const changedMap = {...editMapLandmarks[index]}
           changedMap.lng = e.lngLat.lng
@@ -112,19 +113,19 @@ const EditingLandmarks = (props) => {
     }
   }
 
-  const coordinatesSelectionMode = (index) => {
+  const coordinatesSelectionMode = (index: any) => {
     selectingCoordinates = true
     selectCoordinates(index)
   }
 
-  const colorSampleRefs = useRef([])
-  const addToColorSampleRefs = (e) => {
+  const colorSampleRefs = useRef<any>([])
+  const addToColorSampleRefs = (e: any) => {
     if (e && !colorSampleRefs.current.includes(e)) {
       colorSampleRefs.current.push(e)
     }
   }
   const [lastColorSelected, setLastColorSelected] = useState(-1)
-  const handleColorSelection = (e, colorCode, index) => {
+  const handleColorSelection = (e: any, colorCode: any, index: number) => {
     e.target.innerHTML = `<i class="bi bi-check h3"></i>`
     if (lastColorSelected != -1) {
       colorSampleRefs.current[lastColorSelected].innerHTML = ""
@@ -154,7 +155,7 @@ const EditingLandmarks = (props) => {
       }
       <h2>– LANDMARKS –</h2>
       <ul className="add-map-landmark-list">
-        {editMapLandmarks.map((landmark, index) => {
+        {editMapLandmarks.map((landmark: any, index: any) => {
           return(
           <li key={landmark.id} className="d-flex">
             {mapToEdit.subscription === 'admin' ? 

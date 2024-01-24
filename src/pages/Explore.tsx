@@ -22,7 +22,7 @@ const Explore = (props: any) => {
   useEffect(() => {
     setLoading(true)
     axios
-      .get('http://localhost:5656/api/explore')
+      .get('https://mapex-backend.onrender.com/api/explore')
         .then((res) => {
           setExploreMaps(res.data.data)
           setFilteredExploreMaps(res.data.data)

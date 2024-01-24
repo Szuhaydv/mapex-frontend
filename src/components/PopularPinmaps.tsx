@@ -46,8 +46,9 @@ const PopularPinmaps = () => {
     }
   }, []);
   const [selectedMap, setSelectedMap] = useState(1)
-  mapRefs.current[selectedMap].classList.add('selected-card')
-  const tempArray: any[] = []
+  if (mapRefs.current != null) {
+    mapRefs.current[selectedMap].classList.add('selected-card')
+    const tempArray: any[] = []
     const markerOptions: any = { scale: '0' }
     popularMaps[selectedMap].landmarks.forEach((landmark: any) => {
       const temp = new mapboxgl.Marker(markerOptions)
@@ -59,7 +60,9 @@ const PopularPinmaps = () => {
       temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
       tempArray.push(temp)
     })
-  setCurrentLandmarks(tempArray)
+    setCurrentLandmarks(tempArray)
+  }
+ 
 
   const selectMap = (mapNumber: any) => {
     if (mapNumber == selectedMap) return;

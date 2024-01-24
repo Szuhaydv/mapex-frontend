@@ -9,3 +9,5 @@
 - Built with the MERN stack, a Single Page Application (SPA) using React and React-Router
 - Bunch of custom animations built from scratch >>
   A custom sidebar that changes color based on scrollheight | diagonal carousel that stops on activity then continues shuffling | Blog carousel | Copy email animation & more!
+
+https://github.com/Szuhaydv/mapex-frontend/assets/131718197/f23c1810-2009-4670-a227-adc0d12af9b1

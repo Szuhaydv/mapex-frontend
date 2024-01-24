@@ -13,7 +13,7 @@ const PopularPinmaps = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5656/api/topthree', { withCredentials: true })
+      .get('https://mapex-backend.onrender.com', { withCredentials: true })
       .then((res) => {
         setPopularMaps(res.data.data)
       })
@@ -108,7 +108,7 @@ const PopularPinmaps = () => {
                       <p className="author">by {map.author}</p>
                     </div>
                     <div className="likes">
-                      <img src="src/assets/heart.svg" alt="heart icon" />
+                      <img src="./heart.svg" alt="heart icon" />
                       <p className="likes-number">{map.numberOfLikes}</p>
                     </div>
                   </li>

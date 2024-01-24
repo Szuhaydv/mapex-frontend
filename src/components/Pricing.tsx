@@ -11,15 +11,15 @@ const Pricing = () => {
                 <button className="btn btn-primary">Select Plan</button>
                 <div className="pros">
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         3 maps per week
                     </div>
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         1 custom icon
                     </div>
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         Use of hashtags
                     </div>
                 </div>
@@ -31,15 +31,15 @@ const Pricing = () => {
                 <button className="btn btn-primary">Select Plan</button>
                 <div className="pros">
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         3 maps per week
                     </div>
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         1 custom icon
                     </div>
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         Use of hashtags
                     </div>
                 </div>
@@ -51,15 +51,15 @@ const Pricing = () => {
                 <button className="btn btn-primary">Select Plan</button>
                 <div className="pros">
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         3 maps per week
                     </div>
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         1 custom icon
                     </div>
                     <div className="pro">
-                        <img src="src/assets/checkmark.svg" alt="" />
+                        <img src="./checkmark.svg" alt="" />
                         Use of hashtags
                     </div>
                 </div>

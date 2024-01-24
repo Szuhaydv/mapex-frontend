@@ -108,33 +108,33 @@ const BlogContact = () => {
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
+                <img src="https://www.familyadventureproject.org/wp-content/uploads/2012/12/IMG_5116.jpg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 5</h3>
+                  <h3>Sample 5</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
+                <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/453150473.jpg?k=af2b803c6c7ec968294f630af37d64bfbf36ee5d570ca0979c50333388ed7919&o=&hp=1" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 6</h3>
+                  <h3>Sample 6</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
+                <img src="https://hips.hearstapps.com/elledecor/assets/16/25/american-landmarks-mount-rushmore_1.jpg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 7</h3>
+                  <h3>Sample 7</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
+                <img src="https://www.celebritycruises.com/blog/content/uploads/2022/01/famous-landmarks-in-paris-arc-de-triomphe-hero.jpg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 8</h3>
+                  <h3>Sample 8</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
+                <img src="https://www.familyadventureproject.org/wp-content/uploads/2012/12/IMG_5116.jpg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 9</h3>
+                  <h3>Sample 9</h3>
                 </div>
               </li>
             </ul>

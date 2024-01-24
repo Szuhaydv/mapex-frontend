@@ -85,7 +85,7 @@ const PopularPinmaps = () => {
               <button className="me-5">THIS WEEK</button>
               <button>ALL TIME</button>
             </div>
-            <img className='blob' src="src/assets/blob.svg" alt="blog background" />
+            <img className='blob' src="./blob.svg" alt="blog background" />
             <ul className="position-absolute">
               {popularMaps.map((map: any, index: any) => {
                 return(

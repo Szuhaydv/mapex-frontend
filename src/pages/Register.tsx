@@ -18,7 +18,7 @@ const Register = (props: any) => {
         password
       }
       axios
-        .post(`http://localhost:5656/register`, registerCred, { withCredentials: true })
+        .post(`https://mapex-backend.onrender.com/register`, registerCred, { withCredentials: true })
             .then(() => {
               setLoading(false)
               navigate("/login")

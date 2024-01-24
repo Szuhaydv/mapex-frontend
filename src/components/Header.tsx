@@ -33,7 +33,7 @@ const Header = (props: any) => {
     setIsLoggedIn(false)
     setLoading(true)
     axios
-      .get('http://localhost:5656/logout', { withCredentials: true })
+      .get('https://mapex-backend.onrender.com/logout', { withCredentials: true })
         .then(() => {
           setLoading(false)
         })

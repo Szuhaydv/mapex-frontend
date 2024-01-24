@@ -25,7 +25,7 @@ const MyMaps = (props: any) => {
     if (isLoggedIn) {
       setLoading(true)
       axios
-        .get('http://localhost:5656/api/mymaps', { withCredentials: true, withXSRFToken: true })
+        .get('https://mapex-backend.onrender.com/api/mymaps', { withCredentials: true, withXSRFToken: true })
         .then((res) => {
           setMyMaps(res.data.data)
           setLoading(false)
@@ -119,7 +119,7 @@ const MyMaps = (props: any) => {
     if (mapInfo.title && mapInfo.author) {
       setLoading(true)
       axios
-        .post('http://localhost:5656/api/mymaps', mapInfo, { withCredentials: true} )
+        .post('https://mapex-backend.onrender.com/api/mymaps', mapInfo, { withCredentials: true} )
         .then(() => {
           toDelete.forEach((landmark: any) => {
             landmark.remove()
@@ -151,7 +151,7 @@ const MyMaps = (props: any) => {
     if (selectedMyMap != -1) {
       setLoading(true)
       axios
-        .delete(`http://localhost:5656/api/mymaps/${myMaps[selectedMyMap]._id}`, { withCredentials: true } )
+        .delete(`https://mapex-backend.onrender.com/api/mymaps/${myMaps[selectedMyMap]._id}`, { withCredentials: true } )
         .then(() => {
           mapChangeOnDelete()
           setLoading(false)
@@ -191,7 +191,7 @@ const MyMaps = (props: any) => {
       }
       setLoading(true)
       axios
-        .put(`http://localhost:5656/api/mymaps/${mapInfo.id}`, updatedMap, { withCredentials: true} )
+        .put(`https://mapex-backend.onrender.com/api/mymaps/${mapInfo.id}`, updatedMap, { withCredentials: true} )
         .then(() => {
           toDeleteEdit.forEach((landmark: any) => {
             landmark.remove()

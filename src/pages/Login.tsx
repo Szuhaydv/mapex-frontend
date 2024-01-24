@@ -21,7 +21,7 @@ const Login = (props: any) => {
         password
       }
       axios
-        .post(`http://localhost:5656/login`, loginCred, {withCredentials: true })
+        .post(`https://mapex-backend.onrender.com/login`, loginCred, {withCredentials: true })
             .then(() => {
               setLoading(false)
               setUser(username)

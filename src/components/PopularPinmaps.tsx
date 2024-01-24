@@ -13,7 +13,7 @@ const PopularPinmaps = () => {
 
   useEffect(() => {
     axios
-      .get('https://mapex-backend.onrender.com', { withCredentials: true })
+      .get('https://mapex-backend.onrender.com/api/topthree', { withCredentials: true })
       .then((res) => {
         setPopularMaps(res.data.data)
       })

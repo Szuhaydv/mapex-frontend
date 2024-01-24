@@ -1,4 +1,4 @@
-# Mapex - Create beutiful pinmaps of your bucket list travel destinations!
+# Mapex - Create beutiful pinmaps of your bucket list destinations!
 
 - Encrypted Login / Register / Authentication using cookies
   - Using fully secure PBKDF2-HMAC-SHA512 Password Storage Scheme, utilizing PassportJS

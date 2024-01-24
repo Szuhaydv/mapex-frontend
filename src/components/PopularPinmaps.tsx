@@ -46,23 +46,6 @@ const PopularPinmaps = () => {
     }
   }, []);
   const [selectedMap, setSelectedMap] = useState(1)
-  if (mapRefs.current != null) {
-    mapRefs.current[selectedMap].classList.add('selected-card')
-    const tempArray: any[] = []
-    const markerOptions: any = { scale: '0' }
-    popularMaps[selectedMap].landmarks.forEach((landmark: any) => {
-      const temp = new mapboxgl.Marker(markerOptions)
-        .setLngLat([landmark.longitude,landmark.latitude])
-        .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
-        .addTo(map.current)
-        //@ts-ignore
-        .addClassName('background-icon')
-      temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
-      tempArray.push(temp)
-    })
-    setCurrentLandmarks(tempArray)
-  }
- 
 
   const selectMap = (mapNumber: any) => {
     if (mapNumber == selectedMap) return;

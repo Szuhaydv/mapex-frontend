@@ -45,7 +45,7 @@ const PopularPinmaps = () => {
       });
     }
   }, []);
-  const [selectedMap, setSelectedMap] = useState(1)
+  const [selectedMap, setSelectedMap] = useState(-1)
   const selectMap = (mapNumber: any) => {
     if (mapNumber == selectedMap) return;
     if (selectedMap != -1) {
@@ -90,7 +90,7 @@ const PopularPinmaps = () => {
             <ul className="position-absolute">
               {popularMaps.map((map: any, index: any) => {
                 return(
-                  <li ref={addMapRef} className={index === 1 ? "selected-card" : ""} onClick={() => {
+                  <li ref={addMapRef} onClick={() => {
                     selectMap(index)
                     selectLandmarks(index)}
                     } key={map._id}>

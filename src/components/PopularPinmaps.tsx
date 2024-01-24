@@ -89,7 +89,7 @@ const PopularPinmaps = () => {
             <ul className="position-absolute">
               {popularMaps.map((map: any, index: any) => {
                 return(
-                  <li ref={addMapRef} onClick={() => {
+                  <li ref={addMapRef} className={index === 1 ? "selected-card" : ""} onClick={() => {
                     selectMap(index)
                     selectLandmarks(index)}
                     } key={map._id}>

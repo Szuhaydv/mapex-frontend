@@ -76,7 +76,8 @@ const PopularPinmaps = () => {
     })
     setCurrentLandmarks(tempArray)
   }
-  
+  selectMap(1)
+  selectLandmarks(1)
 
   return (
     <div className='popular-pinmaps d-flex' id="popular-pinmaps">

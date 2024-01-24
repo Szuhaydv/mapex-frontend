@@ -45,7 +45,7 @@ const PopularPinmaps = () => {
       });
     }
   }, []);
-  const [selectedMap, setSelectedMap] = useState(-1)
+  const [selectedMap, setSelectedMap] = useState(1)
   const selectMap = (mapNumber: any) => {
     if (mapNumber == selectedMap) return;
     if (selectedMap != -1) {

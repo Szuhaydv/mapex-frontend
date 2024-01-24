@@ -76,8 +76,12 @@ const PopularPinmaps = () => {
     })
     setCurrentLandmarks(tempArray)
   }
-  selectMap(1)
-  selectLandmarks(1)
+  useEffect(() => {
+    if (mapRefs.current.length === 3) {
+      selectMap(1)
+      selectLandmarks(1)
+    }
+  }, [mapRefs])
 
   return (
     <div className='popular-pinmaps d-flex' id="popular-pinmaps">

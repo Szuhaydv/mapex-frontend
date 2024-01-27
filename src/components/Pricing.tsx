@@ -9,7 +9,11 @@ const Pricing = () => {
                 <h3>Starter Plan</h3>
                 <p>Try out Mapex for free, upgrade when you feel comfortable!</p>
                 <h2>Free</h2>
-                <button className="btn btn-primary">Select Plan</button>
+                <stripe-buy-button
+                buy-button-id="buy_btn_1OdIQXCKp5tSawCx09bzSPcz"
+                publishable-key="pk_test_51OGGa8CKp5tSawCxZps4QKwg1sh7XqGgtiU66PbgDQt2ofykONeVNR50gJjFpf2P6kRPK49r9USh89HDNg53fmZw00osx2M9Ka"
+                >
+                </stripe-buy-button>
                 <div className="pros">
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />

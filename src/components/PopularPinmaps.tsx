@@ -9,16 +9,19 @@ const PopularPinmaps = () => {
 
   const [popularMaps, setPopularMaps] = useState<any>([])
   const [currentLandmarks, setCurrentLandmarks] = useState<any>([])
-
+  const [loading, setLoading] = useState<any>(false)
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get('https://mapex-backend.onrender.com/api/topthree', { withCredentials: true })
       .then((res) => {
         setPopularMaps(res.data.data)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }, [])
   
@@ -87,7 +90,9 @@ const PopularPinmaps = () => {
             </div>
             <img className='blob' src="./blob.svg" alt="blog background" />
             <ul className="position-absolute">
-              {popularMaps.map((map: any, index: any) => {
+              { loading ? 
+              <li>First server start. Might take long...</li> :
+              popularMaps.map((map: any, index: any) => {
                 return(
                   <li ref={addMapRef} onClick={() => {
                     selectMap(index)
@@ -113,7 +118,8 @@ const PopularPinmaps = () => {
                     </div>
                   </li>
                 )
-              })}
+              })
+              }
             </ul>
         </section>
         <section className="example-maps">

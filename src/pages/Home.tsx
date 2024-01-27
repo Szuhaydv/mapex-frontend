@@ -4,7 +4,6 @@ import BlogContact from "../components/BlogContact"
 import Pricing from "../components/Pricing"
 
 const Home = () => {
-
   return (
     <div>
       <AboveFold/>

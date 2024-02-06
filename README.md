@@ -10,4 +10,5 @@
 - Bunch of custom animations built from scratch >>
   A custom sidebar that changes color based on scrollheight | diagonal carousel that stops on activity then continues shuffling | Blog carousel | Copy email animation & more!
 
+(Excuse the fast-paced video demo, GitHub limits file size)
 https://github.com/Szuhaydv/mapex-frontend/assets/131718197/f23c1810-2009-4670-a227-adc0d12af9b1

@@ -127,7 +127,7 @@ const Blog = () => {
               <i ref={rightArrow} style={{ cursor: 'pointer' }} onClick={() => rightClick()} className="bi bi-arrow-right-circle h3"></i>
             </div>
           </div>
-          <p className="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero mollitia saepe necessitatibus veritatis id quam porro excepturi accusamus et sunt sit placeat, vel deserunt, voluptates voluptatem eaque, totam dicta ratione!</p>
+          {/* <p className="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero mollitia saepe necessitatibus veritatis id quam porro excepturi accusamus et sunt sit placeat, vel deserunt, voluptates voluptatem eaque, totam dicta ratione!</p> */}
         </section>
     </div>
   )

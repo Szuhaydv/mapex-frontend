@@ -1,4 +1,4 @@
-import { RefObject, useRef, useEffect } from "react"
+import { RefObject, useRef, useEffect, MutableRefObject } from "react"
 import { Link } from "react-router-dom"
 const AboveFold = () => {
 
@@ -8,11 +8,11 @@ const AboveFold = () => {
     const square4 = useRef<HTMLDivElement>(null)
     const square5 = useRef<HTMLDivElement>(null)
     const squares: RefObject<HTMLDivElement>[] = [square1,square2,square3,square4,square5]
-    let firstSquare: number = 0
-    let lastSquare: number = 4
+    let firstSquare = 0
+    let lastSquare = 4
 
-    const buttonRefs: any = useRef([])
-    const addToRefs = (el: any) => {
+    const buttonRefs: MutableRefObject<HTMLButtonElement[]> = useRef([])
+    const addToRefs = (el: HTMLButtonElement) => {
         if(el && !buttonRefs.current.includes(el)) {
             buttonRefs.current.push(el)
         }
@@ -120,28 +120,30 @@ const AboveFold = () => {
         }, 1000)
     }
 
-    const calcAnimation = (e: any) => {
+    const calcAnimation = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         clearInterval(autoSlide)
         setTimeout(() => {
             autoSlide = intervalSetter()
         }, 10000)
         let clickedBtn = -1
-        switch(e.target.classList[1]) {
-            case 'btn1':
-                clickedBtn = 0
-                break
-            case 'btn2':
-                clickedBtn = 1
-                break
-            case 'btn3':
-                clickedBtn = 2
-                break
-            case 'btn4':
-                clickedBtn = 3
-                break
-            case 'btn5':
-                clickedBtn = 4
-                break
+        if (e.target instanceof HTMLButtonElement) {
+            switch(e.target.classList[1]) {
+                case 'btn1':
+                    clickedBtn = 0
+                    break
+                case 'btn2':
+                    clickedBtn = 1
+                    break
+                case 'btn3':
+                    clickedBtn = 2
+                    break
+                case 'btn4':
+                    clickedBtn = 3
+                    break
+                case 'btn5':
+                    clickedBtn = 4
+                    break
+            }
         }
         if (currentSelected === clickedBtn || clickedBtn === -1) return
         if (currentSelected < clickedBtn) {
@@ -224,14 +226,14 @@ const AboveFold = () => {
     }
     let autoSlide = intervalSetter()
     
-    const iconRefs = useRef<any>([])
-    const addToIcons = (el: any) => {
+    const iconRefs: MutableRefObject<HTMLElement[]> = useRef([])
+    const addToIcons = (el: HTMLElement) => {
         if(el && !iconRefs.current.includes(el)) {
             iconRefs.current.push(el)
         }
     }
     let currentMapIcon = 0
-    const changeMapIcon = (number: any) => {
+    const changeMapIcon = (number: number) => {
         if (number == currentMapIcon) return;
         iconRefs.current[number].classList.remove('bi-geo')
         iconRefs.current[number].classList.add('bi-map')
@@ -239,26 +241,29 @@ const AboveFold = () => {
         iconRefs.current[currentMapIcon].classList.add('bi-geo')
         currentMapIcon = number
     }
-    const connectLineRefs = useRef<any>([])
-    const addToLines = (el: any) => {
+    const connectLineRefs: MutableRefObject<HTMLDivElement[]> = useRef([])
+    const addToLines = (el: HTMLDivElement) => {
         if (el && !connectLineRefs.current.includes(el)) {
             connectLineRefs.current.push(el)
         }
     }
-    const connectColor = (start: any, end: any, string: any) => {
+    const connectColor = (start: number, end: number, string: string) => {
         if (string === 'black') {
-            connectLineRefs.current.slice(start,end).forEach((element: any) => {
+            connectLineRefs.current.slice(start,end).forEach((element: HTMLDivElement) => {
                 element.classList.remove('connect-line-inblack')
             })
         } else if (string === 'white') {
-            connectLineRefs.current.slice(start,end).forEach((element: any) => {
+            connectLineRefs.current.slice(start,end).forEach((element: HTMLDivElement) => {
                 element.classList.add('connect-line-inblack')
             })
         }
     }
     useEffect(() => {
-        const getSection: any = document.getElementById('home')?.offsetHeight
-        const sectionHeight = getSection - 70 
+        const getSection = document.getElementById('home')?.offsetHeight
+        let sectionHeight = 0
+        if (getSection) {
+             sectionHeight = getSection - 70 
+        }
         const remSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
         const iconSize = 3 * remSize
         const lineSize = (sectionHeight - 70) * 0.11

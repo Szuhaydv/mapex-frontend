@@ -158,7 +158,7 @@ const Explore = (props: LoadingInterface) => {
                 if (map.tags) {
                   return(
                     <li key={map._id}>
-                      <Link to={`/explore/${map._id}`} state={{map}}>
+                      <Link to={`/explore/${map._id}`} state={{hashtags}}>
                         <img src={map.coverImage} alt="Map cover image" />
                         <div className='explore-map-info'>
                           <h3>{map.title}</h3>

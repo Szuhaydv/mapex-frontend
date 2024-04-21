@@ -192,7 +192,7 @@ const MyMaps = (props: MyMapsProps) => {
         setMyCurrentLandmarks([])
       }
       setMapInfo(mapToEdit)
-      // setIsEditing(true)
+      setIsEditing(true)
     }
   }
   const handleMapEditSave = () => {

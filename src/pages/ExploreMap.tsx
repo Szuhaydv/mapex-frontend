@@ -1,11 +1,11 @@
 import { MutableRefObject, useEffect, useRef } from "react"
-import { LinkProps, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl, { Map } from 'mapbox-gl' 
 
 const ExploreMap = () => {
 
-  const {state}: { state: LinkProps & { map: MapInterface } } = useLocation()
+  const {state}: { state: {map: MapInterface} } = useLocation()
   const { map } = state
   const mapContainer2 = useRef<HTMLDivElement>(null)
   const map2: MutableRefObject<Map | null>= useRef(null)

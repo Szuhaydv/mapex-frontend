@@ -7,11 +7,6 @@ interface AddMapSidebarProps {
   }
 }
 
-interface MapTag {
-  id: number,
-  name: string
-}
-
 const AddMapSidebar = (props: AddMapSidebarProps) => {
   const mapInfo = props.value.mapInfo
   const setMapInfo = props.value.setMapInfo

@@ -32,6 +32,11 @@ interface MapInterface {
   subscription?: string,
 }
 
+interface MapTag {
+  id: number,
+  name: string
+}
+
 interface MyMapsProps {
   value: {
     username: string;

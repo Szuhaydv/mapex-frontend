@@ -1,45 +1,59 @@
 import { useEffect, useState } from "react"
 
-const EditingSidebar = (props: any) => {
+interface EditingSidebarProps {
+  value: {
+    mapInfo: MapInterface | null,
+    setMapInfo: React.Dispatch<React.SetStateAction<MapInterface | null>>,
+    mapToEdit: MapInterface
+  }
+}
+
+const EditingSidebar = (props: EditingSidebarProps) => {
   const mapInfo = props.value.mapInfo
   const setMapInfo = props.value.setMapInfo
   const mapToEdit = props.value.mapToEdit
-
-  const tempArray = mapToEdit.tags.map((tag: any, index: any) => {
-    return {title: tag, id: index}
-  })
-  const [hashtags, setHashtags] = useState(tempArray)
+  const [hashtags, setHashtags] = useState<MapTag[]>([])
+  let tempArray: MapTag[]
+  if (mapToEdit.tags) {
+    tempArray = mapToEdit.tags.map((tag, index) => {
+      return {name: tag, id: index}
+    })
+    setHashtags(tempArray)
+  }
 
   useEffect(() => {
-    const temp = {...mapInfo}
-    temp.tags = hashtags.map((tag: any) => tag.title)
-    setMapInfo(temp)
+    if (mapInfo) {
+      const temp: MapInterface = {...mapInfo}
+      temp.tags = hashtags.map((tag: MapTag) => tag.name)
+      setMapInfo(temp)
+    }
   },[hashtags])
 
-  const handleURLChange = (e: any) => {
-    const temp = {...mapInfo}
-    temp.coverImage = e.target.value
-    setMapInfo(temp)
+  const handleURLChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (mapInfo) {
+      const temp: MapInterface = {...mapInfo, coverImage: e.target.value}
+      setMapInfo(temp)
+    }
   }
 
   const handleTagAdd = () => {
     if (hashtags.length != 0) {
-      if (hashtags[hashtags.length - 1].title === 'hashtag') return
+      if (hashtags[hashtags.length - 1].name === 'hashtag') return
       if (hashtags.length === 4) return
     }
-    setHashtags([...hashtags, { id: hashtags.length, title: 'hashtag'}])
+    setHashtags([...hashtags, { id: hashtags.length, name: 'hashtag'}])
   }
-  const handleTagEdit = (e: any, index: any) => {
-    const tempArray = hashtags.filter((tag: any) => tag.id != hashtags[index].id)
-    setHashtags([...tempArray, { title: e.target.value.replace(/[^0-9A-Z]+/gi,""), id: tempArray.length}])
+  const handleTagEdit = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const tempArray = hashtags.filter((tag) => tag.id != hashtags[index].id)
+    setHashtags([...tempArray, { name: e.target.value.replace(/[^0-9A-Z]+/gi,""), id: tempArray.length}])
   }
-  const noSpace = (e: any) => {
-    if (e.keyCode === 32) {
+  const noSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
       e.preventDefault()
     }
   }
-  const handleTagDelete = (index: any) => {
-    const tempArray = hashtags.filter((tag: any) => tag.id != hashtags[index].id)
+  const handleTagDelete = (index: number) => {
+    const tempArray = hashtags.filter((tag: MapTag) => tag.id != hashtags[index].id)
     setHashtags([...tempArray])
   }
 
@@ -58,10 +72,10 @@ const EditingSidebar = (props: any) => {
         <p className="ms-1">(2)</p>
       </div>
       <ul className="add-map-tags d-flex flex-column align-items-center p-0">
-        {hashtags.map((tag: any, index: any) => {
+        {hashtags.map((tag, index) => {
           return(
             <li key={tag.id} className="d-flex position-relative">
-              <input onChange={(e) => handleTagEdit(e, index)} onKeyDown={(e) => noSpace(e)} type="text" defaultValue={`#${tag.title}`}/>
+              <input onChange={(e) => handleTagEdit(e, index)} onKeyDown={(e) => noSpace(e)} type="text" defaultValue={`#${tag.name}`}/>
               <i onClick={() => handleTagDelete(index)} className="bi bi-dash-square-dotted position-absolute"></i>
             </li>
           )

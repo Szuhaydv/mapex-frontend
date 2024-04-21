@@ -35,7 +35,7 @@ const MyMaps = (props: MyMapsProps) => {
           setLoading(false)
         })
     }
-  }, [])
+  }, [isAddingMap, isEditing])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -55,10 +55,12 @@ const MyMaps = (props: MyMapsProps) => {
 
   const [myCurrentLandmarks, setMyCurrentLandmarks] = useState<mapboxgl.Marker[]>([])
   const [selectedMyMap, setSelectedMyMap] = useState(-1)
+
   const selectMyMap = (mapNumber: number) => {
     if (mapNumber == selectedMyMap) return;
     setSelectedMyMap(mapNumber)
   }
+
   const selectMyLandmarks = (mapNumber: number) => {
     if (myCurrentLandmarks) {
       myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
@@ -99,12 +101,12 @@ const MyMaps = (props: MyMapsProps) => {
   const [mapInfo, setMapInfo] = useState<MapInterface | null>(null)
   const [isCanceling, setIsCanceling] = useState(false)
   
-
   useEffect(()=> {
     setIsAddingMap(false)
     setIsEditing(false)
     setSelectedMyMap(-1)
   }, [isCanceling])
+
   const handleNewMapTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (mapInfo) {
         const temp = {...mapInfo, title: e.target.value}
@@ -181,7 +183,6 @@ const MyMaps = (props: MyMapsProps) => {
   }
   
   const handleMapEdit = () => {
-    console.log(selectedMyMap)
     if (selectedMyMap != -1) {
       if (myCurrentLandmarks.length != 0) {
         myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
@@ -189,7 +190,7 @@ const MyMaps = (props: MyMapsProps) => {
         })
         setMyCurrentLandmarks([])
       }
-      setMapInfo(mapToEdit)
+      // setMapInfo(mapToEdit)
       setIsEditing(true)
     }
   }

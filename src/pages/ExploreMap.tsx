@@ -1,34 +1,41 @@
-import { useEffect, useRef } from "react"
-import { useLocation } from "react-router-dom"
+import { MutableRefObject, useEffect, useRef } from "react"
+import { LinkProps, useLocation } from "react-router-dom"
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl' 
+import mapboxgl, { Map } from 'mapbox-gl' 
 
 const ExploreMap = () => {
-  const {state} = useLocation()
-  const {map} = state
-  const mapContainer2 = useRef<any>(null)
-  const map2 = useRef<any>(null)
+
+  const {state}: {state: LinkProps} = useLocation()
+  const {map}: any = state
+  console.log("map: ", map, "state: ", state)
+  const mapContainer2 = useRef<HTMLDivElement>(null)
+  const map2: MutableRefObject<Map | null>= useRef(null)
   
   useEffect(() => {
 
       if (map2.current) return
       mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-      map2.current = new mapboxgl.Map({
-        container: mapContainer2.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [10, 7.0799],
-        zoom: 1.1,
-        minZoom: 1,
-    });
+      if (mapContainer2.current) {
+        map2.current = new mapboxgl.Map({
+          container: mapContainer2.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [10, 7.0799],
+          zoom: 1.1,
+          minZoom: 1,
+        });
+      }
+      // Again: Weird mapbox behavior requires any
       const markerOptions: any = { scale: '0'}
-      map.landmarks.forEach((landmark: any) => {
-        const temp = new mapboxgl.Marker(markerOptions)
-          .setLngLat([landmark.longitude,landmark.latitude])
-          .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
-          .addTo(map2.current)
-          //@ts-ignore
-          .addClassName('background-icon')
-        temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
+      map.landmarks.forEach((landmark: LandmarkInterface) => {
+        if (map2.current && landmark.longitude && landmark.latitude) {
+          const temp = new mapboxgl.Marker(markerOptions)
+            .setLngLat([landmark.longitude,landmark.latitude])
+            .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
+            .addTo(map2.current)
+            //@ts-ignore
+            .addClassName('background-icon')
+            temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
+        }
       })
   }, []);
   
@@ -41,7 +48,7 @@ const ExploreMap = () => {
         <div className="explore-tags">
           <h3 className="actual-h3">Tags:</h3>
           <div className="hashtags">
-            {map.tags.map((tag: any, index: any) => {
+            {map.tags.map((tag: string, index: any) => {
               return(
                 <p key={index} >#{tag}</p>
               )

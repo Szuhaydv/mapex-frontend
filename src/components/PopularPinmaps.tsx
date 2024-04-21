@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, MutableRefObject } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl, { Marker, MarkerOptions } from 'mapbox-gl' 
+import mapboxgl, { Marker } from 'mapbox-gl' 
 import axios from "axios";
 
 const PopularPinmaps = () => {
@@ -66,7 +66,8 @@ const PopularPinmaps = () => {
     }
     setCurrentLandmarks([])
     const tempArray: Marker[] = []
-    const markerOptions: MarkerOptions = { scale: 0 }
+    // Again: weird mapbox behaviour
+    const markerOptions: any = { scale: "0" }
     popularMaps[mapNumber].landmarks?.forEach((landmark) => {
       if (map.current && landmark.longitude && landmark.latitude) {
         const temp = new mapboxgl.Marker(markerOptions)

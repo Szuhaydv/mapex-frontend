@@ -4,7 +4,7 @@ import { useState } from 'react'
 import axios from 'axios'
 
 
-const Register = (props: any) => {
+const Register = (props: LoadingInterface) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")

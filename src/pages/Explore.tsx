@@ -3,21 +3,21 @@ import { useEffect, useState, useRef } from "react"
 import { Link } from "react-router-dom"
 import Spinner from "../components/Spinner"
 
-const Explore = (props: any) => {
+const Explore = (props: LoadingInterface) => {
   const loading = props.value.loading
   const setLoading = props.value.setLoading
   const [exploreMaps, setExploreMaps] = useState([])
-  const [hashtags, setHashtags] = useState([])
+  const [hashtags, setHashtags] = useState<string[]>([])
   const [filteredExploreMaps, setFilteredExploreMaps] = useState([])
-  const searchbarRef = useRef<any>(null)
-  const hashtagRefs = useRef<any>([])
-  const addToHashtagRefs = (e: any) => {
+  const searchbarRef = useRef<HTMLInputElement>(null)
+  const hashtagRefs = useRef<HTMLParagraphElement[]>([])
+  const addToHashtagRefs = (e: HTMLParagraphElement) => {
     if (e && !hashtagRefs.current.includes(e)) {
       hashtagRefs.current.push(e)
     }
   }
-  const pinsRef = useRef<any>(null)
-  const likesRef = useRef<any>(null)
+  const pinsRef = useRef<HTMLHeadingElement>(null)
+  const likesRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
     setLoading(true)
@@ -26,13 +26,15 @@ const Explore = (props: any) => {
         .then((res) => {
           setExploreMaps(res.data.data)
           setFilteredExploreMaps(res.data.data)
-          let tempArray: any[] = []
-          res.data.data.forEach((map: any) => {
-            map.tags.forEach((tag: any) => {
-              tempArray = [...tempArray, tag]
-            })
+          let tempArray: string[] = []
+          res.data.data.forEach((map: MapInterface) => {
+            if (map.tags) {
+              map.tags.forEach((tag: string) => {
+                tempArray = [...tempArray, tag]
+              })
+            }
           })
-          const finalArray: any = [...new Set(tempArray)]
+          const finalArray: string[] = [...new Set(tempArray)]
           setHashtags(finalArray)
           setLoading(false)
         })
@@ -42,21 +44,28 @@ const Explore = (props: any) => {
         })
   }, [])
 
-  const handleKeyDown = (e: any) => {
-    if (e.keyCode === 13 || e.key === "Enter") {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
       handleSearch()
     }
   }
   const handleSearch = () => {
-    const tempArray = exploreMaps.filter((map: any) => map.title.toLowerCase().includes(searchbarRef.current.value.toLowerCase()))
-    setFilteredExploreMaps(tempArray)
-    searchbarRef.current.value = "" 
+    if (searchbarRef.current != null) {
+      const filterFunction = (map: MapInterface) => {
+        if (searchbarRef.current) {
+          map.title.toLowerCase().includes(searchbarRef.current.value.toLowerCase())
+        }
+      }
+      const tempArray = exploreMaps.filter(filterFunction)
+      setFilteredExploreMaps(tempArray)
+      searchbarRef.current.value = "" 
+    }
   }
   const handleReset = () => {
     setFilteredExploreMaps(exploreMaps)
   }
   const [selectedTag, setSelectedTag] = useState(-1)
-  const selectTag = (index: any) => {
+  const selectTag = (index: number) => {
     if (index === selectedTag) {
       hashtagRefs.current[index].classList.remove('selected-tag')
       setSelectedTag(-1)
@@ -69,13 +78,17 @@ const Explore = (props: any) => {
     setSelectedTag(index)
   }
   const [pinsLikesUntouched, setPinsLikesUntouched] = useState([true, true])
-  const likesInputChange = (e: any) => {
-    likesRef.current.innerText = e.target.value
-    setPinsLikesUntouched([pinsLikesUntouched[0], false])
+  const likesInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (likesRef.current) {
+      likesRef.current.innerText = e.target.value
+      setPinsLikesUntouched([pinsLikesUntouched[0], false])
+    }
   }
-  const pinsInputChange = (e: any) => {
-    pinsRef.current.innerText = e.target.value
-    setPinsLikesUntouched([false, pinsLikesUntouched[1]])
+  const pinsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (pinsRef.current) {
+      pinsRef.current.innerText = e.target.value
+      setPinsLikesUntouched([false, pinsLikesUntouched[1]])
+    }
   }
   // const filterOptions = (map: any) => {
     
@@ -86,10 +99,12 @@ const Explore = (props: any) => {
 
   // }
   const handleFilteredSearch = () => {
-    const tempArray = exploreMaps.filter((map: any) => {
-      return (pinsLikesUntouched[0] ? true : map.landmarks.length >= +pinsRef.current.innerHTML) &&
-      (pinsLikesUntouched[1] ? true : map.numberOfLikes >= +likesRef.current.innerHTML) &&
-      (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
+    const tempArray = exploreMaps.filter((map: MapInterface) => {
+      if (likesRef.current && pinsRef.current && map.numberOfLikes && map.tags) {
+        return (pinsLikesUntouched[0] ? true : map.landmarks.length >= +pinsRef.current.innerHTML) &&
+        (pinsLikesUntouched[1] ? true : map.numberOfLikes >= +likesRef.current.innerHTML) &&
+        (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
+      }
     })
     setFilteredExploreMaps(tempArray)
   }
@@ -137,24 +152,26 @@ const Explore = (props: any) => {
               <li className="outlier-li">
                 <button onClick={() => handleReset()} className="btn btn-danger back-button"><i className="bi bi-arrow-counterclockwise"></i> Reset</button>
               </li> :
-              filteredExploreMaps.map((map: any) => {
-                return(
-                  <li key={map._id}>
-                    <Link to={`/explore/${map._id}`} state={{map}}>
-                      <img src={map.coverImage} alt="Map cover image" />
-                      <div className='explore-map-info'>
-                        <h3>{map.title}</h3>
-                        <div className="tags">
-                          {map.tags.map((tag: any, index: any) => {
-                            return(
-                              <p key={index}>#{tag}</p>
-                            )
-                          })}
+              filteredExploreMaps.map((map: MapInterface) => {
+                if (map.tags) {
+                  return(
+                    <li key={map._id}>
+                      <Link to={`/explore/${map._id}`} state={{map}}>
+                        <img src={map.coverImage} alt="Map cover image" />
+                        <div className='explore-map-info'>
+                          <h3>{map.title}</h3>
+                          <div className="tags">
+                            {map.tags.map((tag: string, index: number) => {
+                              return(
+                                <p key={index}>#{tag}</p>
+                              )
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  </li>
-                )
+                      </Link>
+                    </li>
+                  )
+                }
               })
             }
           </ul>

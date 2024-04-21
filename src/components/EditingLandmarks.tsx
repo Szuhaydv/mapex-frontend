@@ -19,7 +19,7 @@ const EditingLandmarks = (props: EditingLandmarksProps) => {
   const map2 = props.value.map2
   const isCanceling = props.value.isCanceling
   const setToDeleteEdit = props.value.setToDeleteEdit
-  let tempArray: LandmarkInterface[]
+  let tempArray: LandmarkInterface[] = []
   if (mapToEdit.landmarks)  {
     tempArray = mapToEdit.landmarks.map((landmark, index) => {
       return {title: landmark.title, id: index, lng: landmark
@@ -33,6 +33,7 @@ const EditingLandmarks = (props: EditingLandmarksProps) => {
   
   useEffect(() => {
     setEditMapLandmarks(tempArray)
+    console.log("Entered editinglandmarks")
   }, [])
 
   // Intentional (mapbox weird behaviour - expects number but works with string only)

@@ -13,13 +13,14 @@ const EditingSidebar = (props: EditingSidebarProps) => {
   const setMapInfo = props.value.setMapInfo
   const mapToEdit = props.value.mapToEdit
   const [hashtags, setHashtags] = useState<MapTag[]>([])
-  let tempArray: MapTag[]
+  let tempArray: MapTag[] = []
   if (mapToEdit.tags) {
     tempArray = mapToEdit.tags.map((tag, index) => {
       return {name: tag, id: index}
     })
     setHashtags(tempArray)
   }
+  console.log("Entered editingSidebar")
 
   useEffect(() => {
     if (mapInfo) {

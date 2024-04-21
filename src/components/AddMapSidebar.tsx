@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react"
 
-const AddMapSidebar = (props: any) => {
+interface AddMapSidebarProps {
+  value: {
+    mapInfo: MapInterface | null;
+    setMapInfo: React.Dispatch<React.SetStateAction<MapInterface | null>>;
+  }
+}
+
+interface MapTag {
+  id: number,
+  name: string
+}
+
+const AddMapSidebar = (props: AddMapSidebarProps) => {
   const mapInfo = props.value.mapInfo
   const setMapInfo = props.value.setMapInfo
-  const [addMapTags, setAddMapTags] = useState<any>([])
+  const [addMapTags, setAddMapTags] = useState<MapTag[]>([])
   const handleTagAdd = () => {
     if (addMapTags.length != 0) {
       if (addMapTags[addMapTags.length - 1].name === 'hashtag') return
@@ -11,30 +23,35 @@ const AddMapSidebar = (props: any) => {
     }
     setAddMapTags([...addMapTags, { id: addMapTags.length, name: 'hashtag'}])
   }
-  const noSpace = (e: any) => {
-    if (e.keyCode === 32) {
+  const noSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
       e.preventDefault()
     }
   }
   
-  const handleTagEdit = (e: any, index: any) => {
-    const tempArray = addMapTags.filter((tag: any) => tag.id != addMapTags[index].id)
+  const handleTagEdit = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const tempArray = addMapTags.filter((tag) => tag.id != addMapTags[index].id)
     setAddMapTags([...tempArray, { name: e.target.value.replace(/[^0-9A-Z]+/gi,""), id: tempArray.length}])
   }
-  const handleTagDelete = (index: any) => {
-    const tempArray = addMapTags.filter((tag: any) => tag.id != addMapTags[index].id)
+  const handleTagDelete = (index: number) => {
+    const tempArray = addMapTags.filter((tag) => tag.id != addMapTags[index].id)
     setAddMapTags([...tempArray])
   }
-  const handleURLChange = (e: any) => {
-    const temp = {...mapInfo}
-    temp.coverImage = e.target.value
-    setMapInfo(temp)
+  const handleURLChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (mapInfo) {
+      const temp = {...mapInfo}
+      temp.coverImage = e.target.value
+      setMapInfo(temp)
+    }
   }
   useEffect(() => {
-    const temp = {...mapInfo}
-    const tempArray = addMapTags.filter((tag: any) => tag.name != 'hashtag').map((tag: any) => tag.name)
-    temp.tags = tempArray
-    setMapInfo(temp)
+    if (mapInfo) {
+      const temp = {...mapInfo}
+      const tempArray = addMapTags.filter((tag) => tag.name != 'hashtag').map((tag) => tag.name)
+      temp.tags = tempArray
+      
+      setMapInfo(temp)
+    }
   }, [addMapTags])
 
   return (
@@ -51,7 +68,7 @@ const AddMapSidebar = (props: any) => {
         <p className="ms-1">(2)</p>
       </div>
       <ul className="add-map-tags d-flex flex-column align-items-center p-0">
-        {addMapTags.map((tag: any, index: any) => {
+        {addMapTags.map((tag, index) => {
           return(
             <li key={tag.id} className="d-flex position-relative">
               <input onChange={(e) => handleTagEdit(e, index)} onKeyDown={(e) => noSpace(e)} type="text" defaultValue={`#${tag.name}`}/>

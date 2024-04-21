@@ -126,24 +126,28 @@ const MyMaps = (props: MyMapsProps) => {
   const [toDeleteEdit, setToDeleteEdit] = useState<mapboxgl.Marker[]>([])
   const handleMapSave = () => {
     if (mapInfo) {
-      setLoading(true)
-      axios
-        .post('https://mapex-backend.onrender.com/api/mymaps', mapInfo, { withCredentials: true} )
-        .then(() => {
-          toDelete.forEach((landmark: mapboxgl.Marker) => {
-            landmark.remove()
+      if (mapInfo.title && mapInfo.author) {
+        setLoading(true)
+        axios
+          .post('https://mapex-backend.onrender.com/api/mymaps', mapInfo, { withCredentials: true} )
+          .then(() => {
+            toDelete.forEach((landmark: mapboxgl.Marker) => {
+              landmark.remove()
+            })
+            setIsAddingMap(false)
+            const temp = {...mapInfo, title: "", author: username, coverImage: "", tags: [], landmarks: []}
+            setMapInfo(temp)
+            setLoading(false)
           })
-          setIsAddingMap(false)
-          const temp = {...mapInfo, title: "", author: username, coverImage: "", tags: [], landmarks: []}
-          setMapInfo(temp)
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.log(err)
-          setLoading(false)
-        })
+          .catch((err) => {
+            console.log(err)
+            setLoading(false)
+          })
+      } else {
+        alert("Give a name to your map!")
+      }
     } else {
-      alert("Give a name to your map!")
+      console.log(mapInfo)
     }
   }
   const mapChangeOnDelete = () => {

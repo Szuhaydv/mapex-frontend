@@ -67,13 +67,17 @@ const MyMaps = (props: MyMapsProps) => {
     }
     setMyCurrentLandmarks([])
     const tempArray: mapboxgl.Marker[] = []
+
+    // Weird mapbox behaviour where MarkerOptions.scale is expected in 'number' but only works in 'string' type
+    //  (I'm probably using non-optimal functionalities for my purposes, but still a notable behaviour)
+
     const markerOptions: any = {}
     if (myMaps[mapNumber].subscription === 'admin') {
-      markerOptions.scale = 0
+      markerOptions.scale = "0"
     } else {
       markerOptions.offset = [10.5,-10]
       markerOptions.color = myMaps[mapNumber].markerColor
-      markerOptions.scale = 0
+      markerOptions.scale = "1"
     }
 
     myMaps[mapNumber].landmarks.forEach((landmark: LandmarkInterface) => {

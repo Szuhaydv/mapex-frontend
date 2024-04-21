@@ -2,14 +2,18 @@ import { useEffect, useRef } from "react";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const BlogContact = () => {
-  const copyText = useRef<any>(null)
-  const successMessage = useRef<any>(null)
+  const copyText = useRef<HTMLParagraphElement>(null)
+  const successMessage = useRef<HTMLDivElement>(null)
   const copyTextfunction = () => {
-    navigator.clipboard.writeText(copyText.current.innerText)
-    successMessage.current.style.animation = 'disappear 2s forwards'
+    if (copyText.current && successMessage.current) {
+      navigator.clipboard.writeText(copyText.current.innerText)
+      successMessage.current.style.animation = 'disappear 2s forwards'
+    }
   }
   const handleAnimationEnd = () => {
-    successMessage.current.style.animation = 'none'
+    if (successMessage.current) {
+      successMessage.current.style.animation = 'none'
+    }
   }
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
@@ -17,64 +21,72 @@ const BlogContact = () => {
       textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
     }
   }, []);
-  const postRefs = useRef<any>([])
-  const addToPosts = (el: any) => {
+  const postRefs = useRef<HTMLLIElement[]>([])
+  const addToPosts = (el: HTMLLIElement) => {
     if (el && !postRefs.current.includes(el)) {
       postRefs.current.push(el)
     }
   }
   let currentSelected = 0
-  const leftArrow = useRef<any>(null)
-  const rightArrow = useRef<any>(null)
+  const leftArrow = useRef<HTMLIFrameElement>(null)
+  const rightArrow = useRef<HTMLIFrameElement>(null)
   const rightClick = () => {
-    if (rightArrow.current.style.opacity === '0') return;
-    if (currentSelected < postRefs.current.length - 3) {
+    if (rightArrow.current) {
+      if (rightArrow.current.style.opacity === '0') return;
+      if (currentSelected < postRefs.current.length - 3) {
+        postRefs.current[currentSelected].classList.remove('first-li')
+        postRefs.current[currentSelected].style.left = '-31%'
+        postRefs.current[currentSelected + 1].classList.add('first-li')
+        postRefs.current[currentSelected + 1].style.left = '0%'
+        postRefs.current[currentSelected + 2].style.left = '39%'
+        postRefs.current[currentSelected + 3].style.left = '70%'
+      } else if (currentSelected === postRefs.current.length - 3) {
+        postRefs.current[currentSelected + 1].style.left = '31%'
+      } else if (currentSelected === postRefs.current.length - 2) {
+        postRefs.current[currentSelected + 1].style.left = '62%'
+      }
       postRefs.current[currentSelected].classList.remove('first-li')
-      postRefs.current[currentSelected].style.left = '-31%'
       postRefs.current[currentSelected + 1].classList.add('first-li')
-      postRefs.current[currentSelected + 1].style.left = '0%'
-      postRefs.current[currentSelected + 2].style.left = '39%'
-      postRefs.current[currentSelected + 3].style.left = '70%'
-    } else if (currentSelected === postRefs.current.length - 3) {
-      postRefs.current[currentSelected + 1].style.left = '31%'
-    } else if (currentSelected === postRefs.current.length - 2) {
-      postRefs.current[currentSelected + 1].style.left = '62%'
+      currentSelected += 1
+      if (currentSelected === postRefs.current.length - 1) {
+        rightArrow.current.style.opacity = '0'
+        rightArrow.current.style.cursor = 'default'
+      } 
     }
-    postRefs.current[currentSelected].classList.remove('first-li')
-    postRefs.current[currentSelected + 1].classList.add('first-li')
-    currentSelected += 1
-    if (currentSelected === postRefs.current.length - 1) {
-      rightArrow.current.style.opacity = '0'
-      rightArrow.current.style.cursor = 'default'
-    } 
     if (currentSelected != 0) {
-      leftArrow.current.style.opacity = '1'
-      leftArrow.current.style.cursor = 'pointer'
+      if (leftArrow.current) {
+        leftArrow.current.style.opacity = '1'
+        leftArrow.current.style.cursor = 'pointer'
+      }
     }
 
   }
   const leftClick = () => {
-    if (leftArrow.current.style.opacity === '0') return;
-    if (currentSelected <= postRefs.current.length - 3) {
-      postRefs.current[currentSelected].style.left = '39%'
-      postRefs.current[currentSelected + 1].style.left = '70%'
-      postRefs.current[currentSelected + 2].style.left = '101%'
-      postRefs.current[currentSelected - 1].style.left = '0%'
-    } else if (currentSelected === postRefs.current.length - 1) {
-      postRefs.current[currentSelected].style.left = '70%'
-    } else if (currentSelected === postRefs.current.length - 2) {
-      postRefs.current[currentSelected].style.left = '39%'
-    }
-    postRefs.current[currentSelected].classList.remove('first-li')
-    postRefs.current[currentSelected - 1].classList.add('first-li')
-    currentSelected -= 1
-    if (currentSelected === 0) {
-      leftArrow.current.style.opacity = '0'
-      leftArrow.current.style.cursor = 'default'
-    }
-    if (currentSelected != postRefs.current.length - 3) {
-      rightArrow.current.style.opacity = '1'
-      rightArrow.current.style.cursor = 'pointer'
+    if (leftArrow.current) {
+      if (leftArrow.current.style.opacity === '0') return;
+      if (currentSelected <= postRefs.current.length - 3) {
+        postRefs.current[currentSelected].style.left = '39%'
+        postRefs.current[currentSelected + 1].style.left = '70%'
+        postRefs.current[currentSelected + 2].style.left = '101%'
+        postRefs.current[currentSelected - 1].style.left = '0%'
+      } else if (currentSelected === postRefs.current.length - 1) {
+        postRefs.current[currentSelected].style.left = '70%'
+      } else if (currentSelected === postRefs.current.length - 2) {
+        postRefs.current[currentSelected].style.left = '39%'
+      }
+      postRefs.current[currentSelected].classList.remove('first-li')
+      postRefs.current[currentSelected - 1].classList.add('first-li')
+      currentSelected -= 1
+      if (currentSelected === 0) {
+        leftArrow.current.style.opacity = '0'
+        leftArrow.current.style.cursor = 'default'
+      }
+      if (currentSelected != postRefs.current.length - 3) {
+        if (rightArrow.current) {
+          rightArrow.current.style.opacity = '1'
+          rightArrow.current.style.cursor = 'pointer'
+        }
+      }
     }
   }
   return (

@@ -123,7 +123,7 @@ const MyMaps = (props: MyMapsProps) => {
     }
   }
   const [toDelete, setToDelete] = useState<mapboxgl.Marker[]>([])
-  const [toDeleteEdit, setToDeleteEdit] = useState([])
+  const [toDeleteEdit, setToDeleteEdit] = useState<mapboxgl.Marker[]>([])
   const handleMapSave = () => {
     if (mapInfo) {
       setLoading(true)

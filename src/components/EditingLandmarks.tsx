@@ -1,7 +1,18 @@
-import { useState, useEffect, useRef } from "react"
-import mapboxgl from "mapbox-gl"
+import { useState, useEffect, useRef, MutableRefObject } from "react"
+import mapboxgl from "mapbox-gl";
 
-const EditingLandmarks = (props: any) => {
+interface EditingLandmarksProps {
+  value: {
+    mapToEdit: MapInterface;
+    map2: MutableRefObject<mapboxgl.Map | null>;
+    isCanceling: boolean;
+    mapInfo: MapInterface | null;
+    setMapInfo: React.Dispatch<React.SetStateAction<MapInterface | null>>
+    setToDeleteEdit: React.Dispatch<React.SetStateAction<mapboxgl.Marker[]>>
+  }
+}
+
+const EditingLandmarks = (props: EditingLandmarksProps) => {
   const mapInfo = props.value.mapInfo
   const setMapInfo = props.value.setMapInfo
   const mapToEdit = props.value.mapToEdit
@@ -9,11 +20,13 @@ const EditingLandmarks = (props: any) => {
   const isCanceling = props.value.isCanceling
   const setToDeleteEdit = props.value.setToDeleteEdit
 
-  const tempArray = mapToEdit.landmarks.map((landmark: any, index: number) => {
-    return {title: landmark.title, id: index, lng: landmark.longitude, lat: landmark.latitude}
+
+  const tempArray = mapToEdit.landmarks.map((landmark, index) => {
+    return {title: landmark.title, id: index, lng: landmark
+      .longitude, lat: landmark.latitude}
   })
-  const [editMapLandmarks, setEditMapLandmarks] = useState<any>([])
-  const [refEditMapLandmarks, setRefEditMapLandmarks] = useState([])
+  const [editMapLandmarks, setEditMapLandmarks] = useState<LandmarkInterface[]>([])
+  const [refEditMapLandmarks, setRefEditMapLandmarks] = useState<mapboxgl.Marker[]>([])
 
   const [colorName, setColorName] = useState(mapToEdit.markerColor || "rgb(73,99,242)")
   
@@ -21,6 +34,7 @@ const EditingLandmarks = (props: any) => {
     setEditMapLandmarks(tempArray)
   }, [])
 
+  // Intentional (mapbox weird behaviour - expects number but works with string only)
   const markerOptions: any = {}
   if (mapToEdit.subscription === 'admin') {
     markerOptions.scale = '0'
@@ -30,57 +44,65 @@ const EditingLandmarks = (props: any) => {
     markerOptions.scale = "1"
   }
 
+
   useEffect(() => {
-    const tempLandmarkArray: any = []
+    const tempLandmarkArray: mapboxgl.Marker[] = []
   //   // can be optimized by removing only the changed marker ?
     if (refEditMapLandmarks.length != 0) {
-      refEditMapLandmarks.forEach((landmark: any) => {
+      refEditMapLandmarks.forEach((landmark: mapboxgl.Marker) => {
         landmark.remove()
       })
       setRefEditMapLandmarks([])
+
     }
-    editMapLandmarks.forEach((landmark: any) => {
-      if (landmark.title != "Title" && landmark.lng != "lng" && landmark.lat != "lat") {
-        const temp = new mapboxgl.Marker(markerOptions)
-          .setLngLat([landmark.lng,landmark.lat])
-          .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
-          .addTo(map2.current)
-          //@ts-ignore
-          .addClassName('background-icon')
-        tempLandmarkArray.push(temp)
+    editMapLandmarks.forEach((landmark: LandmarkInterface) => {
+      if (landmark.longitude && landmark.latitude && map2.current) {
+        if (landmark.title != "Title" && landmark.longitude != -1 && landmark.latitude != -1) {
+          const temp = new mapboxgl.Marker(markerOptions)
+            .setLngLat([landmark.longitude,landmark.latitude])
+            .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
+            .addTo(map2.current)
+            //@ts-ignore
+            .addClassName('background-icon')
+          tempLandmarkArray.push(temp)
+        }
       }
     })
     setRefEditMapLandmarks(tempLandmarkArray)
     setToDeleteEdit(tempLandmarkArray)
-    const tempInfo = {...mapInfo}
-    tempInfo.markerColor = colorName
-    tempInfo.landmarks = editMapLandmarks
-      .filter((landmark: any) => landmark.title != "Title" && landmark.lng != "lng" && landmark.lat != "lat")
-      .map((landmark: any) => {
-        return {
-          title: landmark.title,
-          longitude: landmark.lng,
-          latitude: landmark.lat
-        }
-      })
-    setMapInfo(tempInfo)
-
+    if (mapInfo) {
+      const tempInfo = {...mapInfo}
+      tempInfo.markerColor 
+      = colorName
+      tempInfo.landmarks
+       = editMapLandmarks
+        .filter((landmark: LandmarkInterface) => landmark.title != "Title" && landmark.longitude != -1 && landmark.latitude != -1)
+        .map((landmark: LandmarkInterface) => {
+          return {
+            title: landmark.title,
+            longitude: landmark.longitude,
+            latitude: landmark.latitude
+          }
+        })
+      setMapInfo(tempInfo)
+    }
   }, [editMapLandmarks, colorName])
 
+
   useEffect(() => {
-    refEditMapLandmarks.forEach((landmark: any) => {
+    refEditMapLandmarks.forEach((landmark: mapboxgl.Marker) => {
       landmark.remove()
     })
   }, [isCanceling])
 
   const handleNewMapAdd = () => {
     if (editMapLandmarks.length != 0) {
-      const lastItem: any = editMapLandmarks[editMapLandmarks.length-1]
-      if (lastItem.title === "Title" || lastItem.lng === "lng" || lastItem.lat === "lat") return
+      const lastItem = editMapLandmarks[editMapLandmarks.length-1]
+      if (lastItem.title === "Title" || lastItem.longitude === -1 || lastItem.latitude === -1) return
     }
-    setEditMapLandmarks([...editMapLandmarks, { id: editMapLandmarks.length, title: "Title", lng: "lng", lat: "lat"}])
+    setEditMapLandmarks([...editMapLandmarks, { id: editMapLandmarks.length, title: "Title", longitude: -1, latitude: -1}])
   }
-  const handleTitleChange = (e: any, index: any) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const tempArray1 = editMapLandmarks.slice(0, index)
     const tempArray2 = editMapLandmarks.slice(index+1, editMapLandmarks.length)
     let changedMap = editMapLandmarks.slice(index, index+1)
@@ -88,14 +110,15 @@ const EditingLandmarks = (props: any) => {
     setEditMapLandmarks([...tempArray1, ...changedMap, ...tempArray2])
   }
 
+
   let selectingCoordinates = false
-  const selectCoordinates = (index: any) => {
+  const selectCoordinates = (index: number) => {
     if (map2.current != null) {
-      map2.current.on('click', (e: any) => {
+      map2.current.on('click', (e: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
         if (selectingCoordinates === true) {
           const changedMap = {...editMapLandmarks[index]}
-          changedMap.lng = e.lngLat.lng
-          changedMap.lat = e.lngLat.lat
+          changedMap.longitude = e.lngLat.lng
+          changedMap.latitude = e.lngLat.lat
           changedMap.id = index
           const tempArray1 = [...editMapLandmarks.slice(0,index)]
           const tempArray2 = [...editMapLandmarks.slice(index + 1, editMapLandmarks.length)]
@@ -104,29 +127,36 @@ const EditingLandmarks = (props: any) => {
         }
       })
       map2.current.on('mousemove', () => {
-        if (selectingCoordinates === true) {
-          map2.current.getCanvas().style.cursor = "crosshair"
-        } else if (selectingCoordinates === false) {
-          map2.current.getCanvas().style.cursor = ""
+        if (map2.current) {
+          if (selectingCoordinates === true) {
+            map2.current.getCanvas().style.cursor = "crosshair"
+          } else if (selectingCoordinates === false) {
+            map2.current.getCanvas().style.cursor = ""
+          }
         }
       })
     }
   }
 
-  const coordinatesSelectionMode = (index: any) => {
+
+  const coordinatesSelectionMode = (index: number) => {
     selectingCoordinates = true
     selectCoordinates(index)
   }
 
-  const colorSampleRefs = useRef<any>([])
-  const addToColorSampleRefs = (e: any) => {
+
+
+  const colorSampleRefs = useRef<HTMLDivElement[]>([])
+  const addToColorSampleRefs = (e: HTMLDivElement) => {
     if (e && !colorSampleRefs.current.includes(e)) {
       colorSampleRefs.current.push(e)
     }
   }
+
   const [lastColorSelected, setLastColorSelected] = useState(-1)
-  const handleColorSelection = (e: any, colorCode: any, index: number) => {
-    e.target.innerHTML = `<i class="bi bi-check h3"></i>`
+  const handleColorSelection = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, colorCode: string, index: number) => {
+    const target = e.target as HTMLDivElement
+    target.innerHTML = `<i class="bi bi-check h3"></i>`
     if (lastColorSelected != -1) {
       colorSampleRefs.current[lastColorSelected].innerHTML = ""
     }
@@ -154,8 +184,9 @@ const EditingLandmarks = (props: any) => {
       </>
       }
       <h2>– LANDMARKS –</h2>
+
       <ul className="add-map-landmark-list">
-        {editMapLandmarks.map((landmark: any, index: any) => {
+        {editMapLandmarks.map((landmark, index) => {
           return(
           <li key={landmark.id} className="d-flex">
             {mapToEdit.subscription === 'admin' ? 
@@ -165,7 +196,7 @@ const EditingLandmarks = (props: any) => {
             }
             <input onChange={(e) => handleTitleChange(e, index)} type="text" defaultValue={landmark.title}/>
             <i onClick={() => coordinatesSelectionMode(index)} className="bi bi-globe h5 mx-2"></i>
-            <div>[{landmark.lng}, {landmark.lat}]</div>
+            <div>[{landmark.longitude}, {landmark.latitude}]</div>
           </li>
           )
           })

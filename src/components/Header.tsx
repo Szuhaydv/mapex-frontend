@@ -2,31 +2,45 @@ import { Link } from "react-router-dom"
 import { useRef } from "react"
 import axios from "axios"
 
-const Header = (props: any) => {
+interface HeaderProps {
+  value: {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    isLoggedIn: boolean,
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+  }
+}
+
+const Header = (props: HeaderProps) => {
   const isLoggedIn = props.value.isLoggedIn
   const setIsLoggedIn = props.value.setIsLoggedIn
   const setLoading = props.value.setLoading
-  const logoutArea = useRef<any>(null)
-  const body: any = document.querySelector('body')
-  body.onclick = (e: any) => {
-    if (e.target.classList[0] === 'profile-img') {
-      return
-    } else {
-      if (logoutArea.current) {
-        showLogout('hide')        
+  const logoutArea = useRef<HTMLDivElement>(null)
+  const body: HTMLBodyElement | null = document.querySelector('body')
+  if (body) {
+    body.onclick = (e) => {
+      if (e.target instanceof HTMLBodyElement) {
+        if (e.target.classList[0] === 'profile-img') {
+          return
+        } else {
+          if (logoutArea.current) {
+            showLogout('hide')        
+          }
+          return
+        }
       }
-      return
     }
   }
-  const showLogout = (show: any) => {
-    if (show === 'hide') {
-      if(logoutArea.current.style.opacity === '1') {
-        logoutArea.current.style.opacity = '0'
+  const showLogout = (show: string) => {
+    if (logoutArea.current) {
+      if (show === 'hide') {
+        if(logoutArea.current.style.opacity === '1') {
+          logoutArea.current.style.opacity = '0'
+        }
+      } else {
+        logoutArea.current.style.opacity === '0' ?
+          logoutArea.current.style.opacity = '1' :
+          logoutArea.current.style.opacity = '0'
       }
-    } else {
-      logoutArea.current.style.opacity === '0' ?
-        logoutArea.current.style.opacity = '1' :
-        logoutArea.current.style.opacity = '0'
     }
   }
   const handleLogout = () => {

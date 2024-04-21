@@ -5,8 +5,8 @@ import mapboxgl, { Map } from 'mapbox-gl'
 
 const ExploreMap = () => {
 
-  const {state}: { state: {map: MapInterface} } = useLocation()
-  const { map } = state
+  const { state } = useLocation()
+  const { map }: { map: MapInterface} = state
   const mapContainer2 = useRef<HTMLDivElement>(null)
   const map2: MutableRefObject<Map | null>= useRef(null)
   

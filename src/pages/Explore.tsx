@@ -1,9 +1,20 @@
 import axios from "axios"
 import { useEffect, useState, useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, LinkProps, To } from "react-router-dom"
 import Spinner from "../components/Spinner"
 
 const Explore = (props: LoadingInterface) => {
+
+  interface CustomLinkProps extends Omit<LinkProps, "state"> {
+    to: To;
+    state?: { map: MapInterface };
+  }
+  
+  function CustomLink({ state, ...rest }: CustomLinkProps) {
+    // Perform type check on 'state' if necessary
+    return <Link {...rest} state={state} />;
+  }
+  
   const loading = props.value.loading
   const setLoading = props.value.setLoading
   const [exploreMaps, setExploreMaps] = useState([])
@@ -158,7 +169,10 @@ const Explore = (props: LoadingInterface) => {
                 if (map.tags) {
                   return(
                     <li key={map._id}>
-                      <Link to={`/explore/${map._id}`} state={{hashtags}}>
+                      {
+                        CustomLink({to: `/explore/${map._id}`, state: {map}})
+                      }
+                      {/* <Link to={`/explore/${map._id}`} state={{map}}> */}
                         <img src={map.coverImage} alt="Map cover image" />
                         <div className='explore-map-info'>
                           <h3>{map.title}</h3>
@@ -170,7 +184,7 @@ const Explore = (props: LoadingInterface) => {
                             })}
                           </div>
                         </div>
-                      </Link>
+                      {/* </Link> */}
                     </li>
                   )
                 }

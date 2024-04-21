@@ -9,7 +9,8 @@ interface LandmarkInterface {
   title: string,
   icon?: string,
   longitude?: number,
-  latitude?: number
+  latitude?: number,
+  id?: number
 }
 
 interface MarkerOptionsInterface {

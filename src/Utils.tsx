@@ -12,12 +12,18 @@ interface LandmarkInterface {
   latitude?: number
 }
 
+interface MarkerOptionsInterface {
+  scale: string,
+  offset?: number[],
+  color?: string
+}
+
 interface MapInterface {
   _id: string,
   title: string,
   author: string,
   coverImage?: string,
-  tags?: [string],
+  tags?: string[],
   publicStatus: boolean,
   numberOfLikes?: number,
   landmarks: LandmarkInterface[],

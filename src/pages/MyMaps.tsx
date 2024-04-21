@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, MutableRefObject } from "react"
 import { Link } from "react-router-dom";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl' 
@@ -10,14 +10,14 @@ import EditingSidebar from "../components/EditingSidebar";
 import EditingLandmarks from "../components/EditingLandmarks";
 
 const MyMaps = (props: any) => {
-  const username = props.value.username
+  const username: string = props.value.username
   const isLoggedIn = props.value.isLoggedIn
   const loading = props.value.loading
   const setLoading = props.value.setLoading
 
-  const mapContainer2 = useRef<any>(null)
-  const map2 = useRef<any>(null)
-  const [myMaps, setMyMaps] = useState<any>([])
+  const mapContainer2 = useRef<HTMLDivElement>(null)
+  const map2: MutableRefObject<mapboxgl.Map | null> = useRef(null)
+  const [myMaps, setMyMaps] = useState<MapInterface[]>([])
 
   const [isAddingMap, setIsAddingMap] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -41,51 +41,52 @@ const MyMaps = (props: any) => {
     if (isLoggedIn) {
       if (map2.current) return
       mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-      map2.current = new mapboxgl.Map({
-        container: mapContainer2.current,
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [10, 7.0799],
-        zoom: 1.1,
-        minZoom: 1,
-    })
+      if (mapContainer2.current) {
+        map2.current = new mapboxgl.Map({
+          container: mapContainer2.current,
+          style: 'mapbox://styles/mapbox/streets-v12',
+          center: [10, 7.0799],
+          zoom: 1.1,
+          minZoom: 1,
+      })
+      }
     }
   }, [myMaps]);
 
-  
-
-  const [myCurrentLandmarks, setMyCurrentLandmarks] = useState<any>([])
+  const [myCurrentLandmarks, setMyCurrentLandmarks] = useState<mapboxgl.Marker[]>([])
   const [selectedMyMap, setSelectedMyMap] = useState(-1)
-  const selectMyMap = (mapNumber: any) => {
+  const selectMyMap = (mapNumber: number) => {
     if (mapNumber == selectedMyMap) return;
     setSelectedMyMap(mapNumber)
   }
-  const selectMyLandmarks = (mapNumber: any) => {
+  const selectMyLandmarks = (mapNumber: number) => {
     if (myCurrentLandmarks) {
-      myCurrentLandmarks.forEach((landmark: any) => {
+      myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
         landmark.remove()
       })
     }
     setMyCurrentLandmarks([])
-    const tempArray: any[] = []
-    const markerOptions: any = {}
+    const tempArray: mapboxgl.Marker[] = []
+    const markerOptions: mapboxgl.MarkerOptions = {}
     if (myMaps[mapNumber].subscription === 'admin') {
-      markerOptions.scale = '0'
+      markerOptions.scale = 0
     } else {
       markerOptions.offset = [10.5,-10]
       markerOptions.color = myMaps[mapNumber].markerColor
-      markerOptions.scale = "1"
+      markerOptions.scale = 1
     }
 
-
-    myMaps[mapNumber].landmarks.forEach((landmark: any) => {
-      const temp = new mapboxgl.Marker(markerOptions)
-        .setLngLat([landmark.longitude,landmark.latitude])
-        .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
-        .addTo(map2.current)
-        //@ts-ignore
-        .addClassName('background-icon')
-      temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
-      tempArray.push(temp)
+    myMaps[mapNumber].landmarks.forEach((landmark: LandmarkInterface) => {
+      if (map2.current && landmark.longitude && landmark.latitude) {
+        const temp = new mapboxgl.Marker(markerOptions)
+          .setLngLat([landmark.longitude,landmark.latitude])
+          .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
+          .addTo(map2.current)
+          //@ts-ignore
+          .addClassName('background-icon')
+        temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
+        tempArray.push(temp)
+      }
     })
     setMyCurrentLandmarks(tempArray)
   }
@@ -94,7 +95,7 @@ const MyMaps = (props: any) => {
     setIsAddingMap(true)
   }
 
-  const [mapInfo, setMapInfo] = useState<any>({ title: "", author: username, coverImage: "", tags: [], landmarks: [] })
+  const [mapInfo, setMapInfo] = useState<MapInterface | null>(null)
   const [isCanceling, setIsCanceling] = useState(false)
   
 
@@ -103,29 +104,34 @@ const MyMaps = (props: any) => {
     setIsEditing(false)
     setSelectedMyMap(-1)
   }, [isCanceling])
-  const handleNewMapTitleChange = (e: any) => {
-    const temp = {...mapInfo}
-    temp.title = e.target.value
-    setMapInfo(temp)
+  const handleNewMapTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (mapInfo) {
+      const temp = {...mapInfo}
+      temp.title = e.target.value
+      setMapInfo(temp)
+    }
   }
-  const handleEditMapTitleChange = (e: any) => {
-    const temp = {...mapInfo}
-    temp.title = e.target.value
-    setMapInfo(temp)
+  const handleEditMapTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (mapInfo) {
+      const temp = {...mapInfo}
+      temp.title = e.target.value
+      setMapInfo(temp)
+    }
   }
   const [toDelete, setToDelete] = useState([])
   const [toDeleteEdit, setToDeleteEdit] = useState([])
   const handleMapSave = () => {
-    if (mapInfo.title && mapInfo.author) {
+    if (mapInfo) {
       setLoading(true)
       axios
         .post('https://mapex-backend.onrender.com/api/mymaps', mapInfo, { withCredentials: true} )
         .then(() => {
-          toDelete.forEach((landmark: any) => {
+          toDelete.forEach((landmark: mapboxgl.Marker) => {
             landmark.remove()
           })
           setIsAddingMap(false)
-          setMapInfo({ title: "", author: username, coverImage: "", tags: [], landmarks: [] })
+          const temp = {...mapInfo, title: "", author: username, coverImage: "", tags: [], landmarks: []}
+          setMapInfo(temp)
           setLoading(false)
         })
         .catch((err) => {
@@ -138,7 +144,7 @@ const MyMaps = (props: any) => {
   }
   const mapChangeOnDelete = () => {
     if (myCurrentLandmarks.length != 0) {
-      myCurrentLandmarks.forEach((landmark: any) => {
+      myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
         landmark.remove()
       })
     }
@@ -168,17 +174,17 @@ const MyMaps = (props: any) => {
   const handleMapEdit = () => {
     if (selectedMyMap != -1) {
       if (myCurrentLandmarks.length != 0) {
-        myCurrentLandmarks.forEach((landmark: any) => {
+        myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
           landmark.remove()
         })
         setMyCurrentLandmarks([])
       }
-      setMapInfo({ id: mapToEdit._id, title: mapToEdit.title, author: username, coverImage: mapToEdit.coverImage, tags: mapToEdit.tags, landmarks: mapToEdit.landmarks, subscription: mapToEdit.subscription, markerColor: mapToEdit.markerColor })
+      setMapInfo(mapToEdit)
       setIsEditing(true)
     }
   }
   const handleMapEditSave = () => {
-    if (mapInfo.title && mapInfo.author) {
+    if (mapInfo) {
       const updatedMap = {
         title: mapInfo.title,
         author: mapInfo.author,
@@ -191,13 +197,14 @@ const MyMaps = (props: any) => {
       }
       setLoading(true)
       axios
-        .put(`https://mapex-backend.onrender.com/api/mymaps/${mapInfo.id}`, updatedMap, { withCredentials: true} )
+        .put(`https://mapex-backend.onrender.com/api/mymaps/${mapInfo._id}`, updatedMap, { withCredentials: true} )
         .then(() => {
-          toDeleteEdit.forEach((landmark: any) => {
+          toDeleteEdit.forEach((landmark: mapboxgl.Marker) => {
             landmark.remove()
           })
           setIsEditing(false)
-          setMapInfo({ title: "", author: username, coverImage: "", tags: [], landmarks: [] })
+          const temp = {...mapInfo, title: "", author: username, coverImage: "", tags: [], landmarks: []}
+          setMapInfo(temp)
           setLoading(false)
         })
         .catch((err) => {
@@ -258,7 +265,7 @@ const MyMaps = (props: any) => {
               :
               <ul>
                 {isLoggedIn ? 
-                  myMaps.length === 0 ? <h3>Seems empty here...</h3> : myMaps.map((map: any, index: any) => {
+                  myMaps.length === 0 ? <h3>Seems empty here...</h3> : myMaps.map((map, index) => {
                     return(
                       <li onClick={() => {
                         selectMyMap(index)
@@ -347,7 +354,7 @@ const MyMaps = (props: any) => {
                         <h4 className="tags-title mt-1"><b>Tags:</b></h4>
                         <div className="hashtags">
                           {selectedMyMap != -1 ? 
-                            myMaps[selectedMyMap].tags.map((tag: any, index: any) => {
+                            myMaps[selectedMyMap].tags?.map((tag, index) => {
                               return(
                                 <p key={index}>#{tag}</p>
                               )

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, MutableRefObject } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl, { Marker } from 'mapbox-gl' 
 import axios from "axios";
+import Spinner from "./Spinner";
 
 const PopularPinmaps = () => {
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -93,7 +94,7 @@ const PopularPinmaps = () => {
             <img className='blob' src="./blob.svg" alt="blog background" />
             <ul className="position-absolute">
               { loading ? 
-              <li>First server start. Might take long...</li> :
+              <li>First server start. Might take long...<Spinner/></li> :
               popularMaps.map((map, index) => {
                 return(
                   <li ref={addMapRef} onClick={() => {

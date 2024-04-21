@@ -13,7 +13,7 @@ const EditingSidebar = (props: EditingSidebarProps) => {
   const setMapInfo = props.value.setMapInfo
   const mapToEdit = props.value.mapToEdit
 
-  const tempArray = mapToEdit.tags?.map((tag: any, index: any) => {
+  const tempArray = mapToEdit.tags?.map((tag, index) => {
     return {title: tag, id: index}
   })
   const [hashtags, setHashtags] = useState(tempArray)
@@ -21,12 +21,12 @@ const EditingSidebar = (props: EditingSidebarProps) => {
   useEffect(() => {
     if (mapInfo) {
       const temp = {...mapInfo}
-      temp.tags = hashtags?.map((tag: any) => tag.title)
+      temp.tags = hashtags?.map((tag) => tag.title)
       setMapInfo(temp)
     }
   },[hashtags])
 
-  const handleURLChange = (e: any) => {
+  const handleURLChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (mapInfo) {
       const temp = {...mapInfo}
       temp.coverImage = e.target.value
@@ -43,20 +43,20 @@ const EditingSidebar = (props: EditingSidebarProps) => {
       setHashtags([...hashtags, { id: hashtags.length, title: 'hashtag'}])
     }
   }
-  const handleTagEdit = (e: any, index: any) => {
+  const handleTagEdit = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     if (hashtags) {
-      const tempArray = hashtags.filter((tag: any) => tag.id != hashtags[index].id)
+      const tempArray = hashtags.filter((tag) => tag.id != hashtags[index].id)
       setHashtags([...tempArray, { title: e.target.value.replace(/[^0-9A-Z]+/gi,""), id: tempArray.length}])
     }
   }
-  const noSpace = (e: any) => {
-    if (e.keyCode === 32) {
+  const noSpace = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
       e.preventDefault()
     }
   }
-  const handleTagDelete = (index: any) => {
+  const handleTagDelete = (index: number) => {
     if (hashtags) {
-      const tempArray = hashtags.filter((tag: any) => tag.id != hashtags[index].id)
+      const tempArray = hashtags.filter((tag) => tag.id != hashtags[index].id)
       setHashtags([...tempArray])
     }
   }
@@ -76,7 +76,7 @@ const EditingSidebar = (props: EditingSidebarProps) => {
         <p className="ms-1">(2)</p>
       </div>
       <ul className="add-map-tags d-flex flex-column align-items-center p-0">
-        {hashtags?.map((tag: any, index: any) => {
+        {hashtags?.map((tag, index) => {
           return(
             <li key={tag.id} className="d-flex position-relative">
               <input onChange={(e) => handleTagEdit(e, index)} onKeyDown={(e) => noSpace(e)} type="text" defaultValue={`#${tag.title}`}/>

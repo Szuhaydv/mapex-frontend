@@ -5,9 +5,8 @@ import mapboxgl, { Map } from 'mapbox-gl'
 
 const ExploreMap = () => {
 
-  const {state}: {state: LinkProps} = useLocation()
-  const {map}: any = state
-  console.log("map: ", map, "state: ", state)
+  const {state}: { state: LinkProps & { map: MapInterface } } = useLocation()
+  const { map } = state
   const mapContainer2 = useRef<HTMLDivElement>(null)
   const map2: MutableRefObject<Map | null>= useRef(null)
   
@@ -26,17 +25,19 @@ const ExploreMap = () => {
       }
       // Again: Weird mapbox behavior requires any
       const markerOptions: any = { scale: '0'}
-      map.landmarks.forEach((landmark: LandmarkInterface) => {
-        if (map2.current && landmark.longitude && landmark.latitude) {
-          const temp = new mapboxgl.Marker(markerOptions)
-            .setLngLat([landmark.longitude,landmark.latitude])
-            .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
-            .addTo(map2.current)
-            //@ts-ignore
-            .addClassName('background-icon')
-            temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
-        }
-      })
+      if (map.landmarks) {
+        map.landmarks.forEach((landmark: LandmarkInterface) => {
+          if (map2.current && landmark.longitude && landmark.latitude) {
+            const temp = new mapboxgl.Marker(markerOptions)
+              .setLngLat([landmark.longitude,landmark.latitude])
+              .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
+              .addTo(map2.current)
+              //@ts-ignore
+              .addClassName('background-icon')
+              temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
+          }
+        })
+      }
   }, []);
   
   return (
@@ -48,7 +49,7 @@ const ExploreMap = () => {
         <div className="explore-tags">
           <h3 className="actual-h3">Tags:</h3>
           <div className="hashtags">
-            {map.tags.map((tag: string, index: any) => {
+            {map.tags?.map((tag, index) => {
               return(
                 <p key={index} >#{tag}</p>
               )
@@ -58,7 +59,7 @@ const ExploreMap = () => {
         <div className="slider-container">
           <div className="d-flex">
             <h3 className="me-3 mb-3 actual-h3">Number of pins:</h3>
-            <h3>{map.landmarks.length}</h3>
+            <h3>{map.landmarks?.length}</h3>
           </div>
         </div>
         <div className="slider-container">
@@ -83,7 +84,7 @@ const ExploreMap = () => {
           <div className="info-landmarks position-relative">
             <h2>– LANDMARKS –</h2>
             <ul className="landmarks-list d-flex flex-column">
-              {map.landmarks.map((landmark: any) => {
+              {map.landmarks?.map((landmark) => {
                 return(
                   <li key={landmark.title}>
                     <img src={landmark.icon} alt="" />

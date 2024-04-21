@@ -30,3 +30,12 @@ interface MapInterface {
   markerColor: string,
   subscription: string,
 }
+
+interface MyMapsProps {
+  value: {
+    username: string;
+    isLoggedIn: boolean;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+}

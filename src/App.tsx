@@ -14,7 +14,7 @@ import ExploreMap from './pages/ExploreMap'
 function App() {
   const [loading, setLoading] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [username, setUsername] = useState(null)
+  const [username, setUsername] = useState<string>("")
   return (
     <>
       <Header value={{setLoading, isLoggedIn, setIsLoggedIn}}/>

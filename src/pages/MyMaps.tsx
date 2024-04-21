@@ -9,7 +9,7 @@ import AddMapLandmarks from "../components/AddMapLandmarks";
 import EditingSidebar from "../components/EditingSidebar";
 import EditingLandmarks from "../components/EditingLandmarks";
 
-const MyMaps = (props: any) => {
+const MyMaps = (props: MyMapsProps) => {
   const username: string = props.value.username
   const isLoggedIn = props.value.isLoggedIn
   const loading = props.value.loading

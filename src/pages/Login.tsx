@@ -3,7 +3,7 @@ import { useState, useRef } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
 
-const Login = (props: any) => {
+const Login = (props: LoginProps) => {
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -12,8 +12,8 @@ const Login = (props: any) => {
   const setIsLoggedIn = props.value.setIsLoggedIn
   const setUser = props.value.setUsername
 
-  const errMessageRef = useRef<any>(null)
-  const handleLogin = (e: any) => {
+  const errMessageRef = useRef<HTMLDivElement>(null)
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     if (username && password) {
       const loginCred = {
@@ -29,15 +29,19 @@ const Login = (props: any) => {
               navigate("/")
             })
             .catch(() => {
-              errMessageRef.current.style.animation = 'disappear 2s forwards'
-              setLoading(false)
+              if (errMessageRef.current) {
+                errMessageRef.current.style.animation = 'disappear 2s forwards'
+                setLoading(false)
+              }
             })
     } else {
       alert("Username or password field incomplete!")
     }
   }
   const handleAnimationEnd = () => {
-    errMessageRef.current.style.animation = 'none'
+    if (errMessageRef.current) {
+      errMessageRef.current.style.animation = 'none'
+    }
   }
   return (
   <div className='login-page position-relative'>

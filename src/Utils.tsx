@@ -39,3 +39,13 @@ interface MyMapsProps {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   }
 }
+
+interface LoginProps {
+  value: {
+    isLoggedIn: boolean;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setUsername: React.Dispatch<React.SetStateAction<string>>;
+  }
+}

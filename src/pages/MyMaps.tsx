@@ -35,7 +35,7 @@ const MyMaps = (props: MyMapsProps) => {
           setLoading(false)
         })
     }
-  }, [isAddingMap, isEditing])
+  }, [])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -48,7 +48,7 @@ const MyMaps = (props: MyMapsProps) => {
           center: [10, 7.0799],
           zoom: 1.1,
           minZoom: 1,
-      })
+        })
       }
     }
   }, [myMaps]);

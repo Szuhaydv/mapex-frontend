@@ -10,7 +10,7 @@ import EditingSidebar from "../components/EditingSidebar";
 import EditingLandmarks from "../components/EditingLandmarks";
 
 const MyMaps = (props: MyMapsProps) => {
-  const username: string = props.value.username
+  const username = props.value.username
   const isLoggedIn = props.value.isLoggedIn
   const loading = props.value.loading
   const setLoading = props.value.setLoading
@@ -80,7 +80,7 @@ const MyMaps = (props: MyMapsProps) => {
       markerOptions.scale = "1"
     }
 
-    myMaps[mapNumber].landmarks.forEach((landmark: LandmarkInterface) => {
+    myMaps[mapNumber].landmarks?.forEach((landmark: LandmarkInterface) => {
       if (map2.current && landmark.longitude && landmark.latitude) {
         const temp = new mapboxgl.Marker(markerOptions)
           .setLngLat([landmark.longitude,landmark.latitude])
@@ -109,16 +109,20 @@ const MyMaps = (props: MyMapsProps) => {
     setSelectedMyMap(-1)
   }, [isCanceling])
   const handleNewMapTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (mapInfo) {
-      const temp = {...mapInfo}
-      temp.title = e.target.value
-      setMapInfo(temp)
-    }
+      if (mapInfo) {
+        const temp = {...mapInfo, title: e.target.value}
+        setMapInfo(temp)
+      } else {
+        const temp: MapInterface = {title: e.target.value, author: username}
+        setMapInfo(temp)
+      }
   }
   const handleEditMapTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (mapInfo) {
-      const temp = {...mapInfo}
-      temp.title = e.target.value
+      const temp = {...mapInfo, title: e.target.value}
+      setMapInfo(temp)
+    } else {
+      const temp: MapInterface = {title: e.target.value, author: username}
       setMapInfo(temp)
     }
   }
@@ -147,7 +151,7 @@ const MyMaps = (props: MyMapsProps) => {
         alert("Give a name to your map!")
       }
     } else {
-      console.log(mapInfo)
+      console.log("The 'mapInfo' object seems empty...")
     }
   }
   const mapChangeOnDelete = () => {
@@ -373,7 +377,7 @@ const MyMaps = (props: MyMapsProps) => {
                       </div>
                       <div className="marker-number">
                         <h4><b>Number of landmarks:</b></h4>
-                        <p>{selectedMyMap != -1 ? myMaps[selectedMyMap].landmarks.length : ""}</p>
+                        <p>{selectedMyMap != -1 ? myMaps[selectedMyMap].landmarks?.length : ""}</p>
                       </div>
                       <div className="cover-image">
                         <h4 className="detail-title"><b>Cover image:</b></h4>

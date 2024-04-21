@@ -19,12 +19,13 @@ const EditingLandmarks = (props: EditingLandmarksProps) => {
   const map2 = props.value.map2
   const isCanceling = props.value.isCanceling
   const setToDeleteEdit = props.value.setToDeleteEdit
-
-
-  const tempArray = mapToEdit.landmarks.map((landmark, index) => {
-    return {title: landmark.title, id: index, lng: landmark
-      .longitude, lat: landmark.latitude}
-  })
+  let tempArray: LandmarkInterface[]
+  if (mapToEdit.landmarks)  {
+    tempArray = mapToEdit.landmarks.map((landmark, index) => {
+      return {title: landmark.title, id: index, lng: landmark
+        .longitude, lat: landmark.latitude}
+    })
+  }
   const [editMapLandmarks, setEditMapLandmarks] = useState<LandmarkInterface[]>([])
   const [refEditMapLandmarks, setRefEditMapLandmarks] = useState<mapboxgl.Marker[]>([])
 

@@ -20,16 +20,16 @@ interface MarkerOptionsInterface {
 }
 
 interface MapInterface {
-  _id: string,
+  _id?: string,
   title: string,
   author: string,
   coverImage?: string,
   tags?: string[],
-  publicStatus: boolean,
+  publicStatus?: boolean,
   numberOfLikes?: number,
-  landmarks: LandmarkInterface[],
-  markerColor: string,
-  subscription: string,
+  landmarks?: LandmarkInterface[],
+  markerColor?: string,
+  subscription?: string,
 }
 
 interface MyMapsProps {

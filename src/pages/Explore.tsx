@@ -7,14 +7,13 @@ const Explore = (props: LoadingInterface) => {
 
   interface CustomLinkProps extends Omit<LinkProps, "state"> {
     to: To;
-    state?: { map: MapInterface };
+    state: { map: MapInterface };
   }
-  
+
   function CustomLink({ state, ...rest }: CustomLinkProps) {
-    // Perform type check on 'state' if necessary
     return <Link {...rest} state={state} />;
   }
-  
+
   const loading = props.value.loading
   const setLoading = props.value.setLoading
   const [exploreMaps, setExploreMaps] = useState([])
@@ -169,10 +168,7 @@ const Explore = (props: LoadingInterface) => {
                 if (map.tags) {
                   return(
                     <li key={map._id}>
-                      {
-                        CustomLink({to: `/explore/${map._id}`, state: {map}})
-                      }
-                      {/* <Link to={`/explore/${map._id}`} state={{map}}> */}
+                      <CustomLink to={`/explore/${map._id}`} state={{map}}>
                         <img src={map.coverImage} alt="Map cover image" />
                         <div className='explore-map-info'>
                           <h3>{map.title}</h3>
@@ -184,7 +180,7 @@ const Explore = (props: LoadingInterface) => {
                             })}
                           </div>
                         </div>
-                      {/* </Link> */}
+                      </CustomLink>
                     </li>
                   )
                 }

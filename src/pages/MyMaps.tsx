@@ -127,6 +127,7 @@ const MyMaps = (props: MyMapsProps) => {
   }
   const [toDelete, setToDelete] = useState<mapboxgl.Marker[]>([])
   const [toDeleteEdit, setToDeleteEdit] = useState<mapboxgl.Marker[]>([])
+
   const handleMapSave = () => {
     if (mapInfo) {
       if (mapInfo.title && mapInfo.author) {
@@ -184,20 +185,14 @@ const MyMaps = (props: MyMapsProps) => {
   
   const handleMapEdit = () => {
     if (selectedMyMap != -1) {
-      console.log("selectMyMap exists", selectedMyMap)
       if (myCurrentLandmarks.length != 0) {
-        console.log("myCurrentLandmarks exists", myCurrentLandmarks)
         myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
           landmark.remove()
         })
-        console.log("myCurrentLandmarks removed", myCurrentLandmarks)
         setMyCurrentLandmarks([])
-        console.log("myCurrentLandmarks array emptied", myCurrentLandmarks)
       }
       setMapInfo(mapToEdit)
-      console.log("mapInto set", mapToEdit)
-      setIsEditing(true)
-      console.log("isEditing set", isEditing)
+      // setIsEditing(true)
     }
   }
   const handleMapEditSave = () => {

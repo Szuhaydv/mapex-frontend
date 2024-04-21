@@ -43,7 +43,7 @@ const AddMapLandmarks = (props: AddMapLandmarksProps) => {
       })
     }
     newMapLandmarks.forEach((landmark) => {
-      const markerOptions: MarkerOptions = {scale: 0, offset: [10.5,-10], color: `${colorName}`}
+      const markerOptions: MarkerOptions = {scale: 1, offset: [10.5,-10], color: `${colorName}`}
       if (map2.current && landmark.longitude && landmark.latitude && landmark.title != "Title" && landmark.longitude != -1 && landmark.latitude != -1) {
         const temp = new mapboxgl.Marker(markerOptions)
           .setLngLat([landmark.longitude,landmark.latitude])

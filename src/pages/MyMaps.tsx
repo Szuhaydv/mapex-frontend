@@ -73,7 +73,7 @@ const MyMaps = (props: MyMapsProps) => {
     } else {
       markerOptions.offset = [10.5,-10]
       markerOptions.color = myMaps[mapNumber].markerColor
-      markerOptions.scale = 1
+      markerOptions.scale = 0
     }
 
     myMaps[mapNumber].landmarks.forEach((landmark: LandmarkInterface) => {

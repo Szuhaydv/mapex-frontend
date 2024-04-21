@@ -184,14 +184,20 @@ const MyMaps = (props: MyMapsProps) => {
   
   const handleMapEdit = () => {
     if (selectedMyMap != -1) {
+      console.log("selectMyMap exists", selectedMyMap)
       if (myCurrentLandmarks.length != 0) {
+        console.log("myCurrentLandmarks exists", myCurrentLandmarks)
         myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {
           landmark.remove()
         })
+        console.log("myCurrentLandmarks removed", myCurrentLandmarks)
         setMyCurrentLandmarks([])
+        console.log("myCurrentLandmarks array emptied", myCurrentLandmarks)
       }
-      // setMapInfo(mapToEdit)
+      setMapInfo(mapToEdit)
+      console.log("mapInto set", mapToEdit)
       setIsEditing(true)
+      console.log("isEditing set", isEditing)
     }
   }
   const handleMapEditSave = () => {

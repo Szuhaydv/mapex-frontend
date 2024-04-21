@@ -10,7 +10,7 @@ const Register = (props: LoadingInterface) => {
   const [password2, setPassword2] = useState("")
   const setLoading = props.value.setLoading
   const navigate = useNavigate()
-  const handleRegister = (e: any) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault()
     if (username && password && password2 && password == password2) {
       const registerCred = {

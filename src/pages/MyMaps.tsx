@@ -67,8 +67,8 @@ const MyMaps = (props: MyMapsProps) => {
     }
     setMyCurrentLandmarks([])
     const tempArray: mapboxgl.Marker[] = []
-    const markerOptions: any = {}
     // Weird mapbox behaviour, scale expecting 'number' but working only with 'string'
+    const markerOptions: any = {}
     if (myMaps[mapNumber].subscription === 'admin') {
       markerOptions.scale = "0"
     } else {

@@ -100,10 +100,12 @@ const Explore = (props: LoadingInterface) => {
   // }
   const handleFilteredSearch = () => {
     const tempArray = exploreMaps.filter((map: MapInterface) => {
-      if (likesRef.current && pinsRef.current && map.numberOfLikes && map.tags) {
-        return (pinsLikesUntouched[0] ? true : map.landmarks.length >= +pinsRef.current.innerHTML) &&
-        (pinsLikesUntouched[1] ? true : map.numberOfLikes >= +likesRef.current.innerHTML) &&
-        (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
+      if (map.landmarks) {
+        if (likesRef.current && pinsRef.current && map.numberOfLikes && map.tags) {
+          return (pinsLikesUntouched[0] ? true : map.landmarks.length >= +pinsRef.current.innerHTML) &&
+          (pinsLikesUntouched[1] ? true : map.numberOfLikes >= +likesRef.current.innerHTML) &&
+          (selectedTag != -1 ? map.tags.includes(hashtags[selectedTag]) : true)
+        }
       }
     })
     setFilteredExploreMaps(tempArray)

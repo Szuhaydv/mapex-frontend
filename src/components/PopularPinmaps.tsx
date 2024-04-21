@@ -1,15 +1,15 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, MutableRefObject } from "react"
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl' 
+import mapboxgl, { Marker, MarkerOptions } from 'mapbox-gl' 
 import axios from "axios";
 
 const PopularPinmaps = () => {
-  const mapContainer = useRef<any>(null)
-  const map: any = useRef(null)
+  const mapContainer = useRef<HTMLDivElement>(null)
+  const map: MutableRefObject<mapboxgl.Map | null> = useRef(null)
 
-  const [popularMaps, setPopularMaps] = useState<any>([])
-  const [currentLandmarks, setCurrentLandmarks] = useState<any>([])
-  const [loading, setLoading] = useState<any>(false)
+  const [popularMaps, setPopularMaps] = useState<MapInterface[]>([])
+  const [currentLandmarks, setCurrentLandmarks] = useState<Marker[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     setLoading(true)
@@ -25,8 +25,8 @@ const PopularPinmaps = () => {
       })
   }, [])
   
-  const mapRefs = useRef<any>([])
-  const addMapRef = (el: any) => {
+  const mapRefs = useRef<HTMLLIElement[]>([])
+  const addMapRef = (el: HTMLLIElement) => {
     if(el && !mapRefs.current.includes(el)) {
       mapRefs.current.push(el)
     }
@@ -35,7 +35,7 @@ const PopularPinmaps = () => {
   useEffect(() => {
     if (map.current) return
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-    if (map.current === null){
+    if (map.current === null && mapContainer.current){
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v12',
@@ -50,7 +50,7 @@ const PopularPinmaps = () => {
   }, []);
   const [selectedMap, setSelectedMap] = useState(1)
 
-  const selectMap = (mapNumber: any) => {
+  const selectMap = (mapNumber: number) => {
     if (mapNumber == selectedMap) return;
     if (selectedMap != -1) {
       mapRefs.current[selectedMap].classList.remove('selected-card')
@@ -58,25 +58,26 @@ const PopularPinmaps = () => {
     mapRefs.current[mapNumber].classList.add('selected-card')
     setSelectedMap(mapNumber)
   }
-  const selectLandmarks = (mapNumber: any) => {
+  const selectLandmarks = (mapNumber: number) => {
     if (currentLandmarks) {
-      currentLandmarks.forEach((landmark: any) => {
+      currentLandmarks.forEach((landmark: Marker) => {
         landmark.remove()
       })
     }
-    
     setCurrentLandmarks([])
-    const tempArray: any[] = []
-    const markerOptions: any = { scale: '0' }
-    popularMaps[mapNumber].landmarks.forEach((landmark: any) => {
-      const temp = new mapboxgl.Marker(markerOptions)
-        .setLngLat([landmark.longitude,landmark.latitude])
-        .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
-        .addTo(map.current)
-        //@ts-ignore
-        .addClassName('background-icon')
-      temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
-      tempArray.push(temp)
+    const tempArray: Marker[] = []
+    const markerOptions: MarkerOptions = { scale: 0 }
+    popularMaps[mapNumber].landmarks?.forEach((landmark) => {
+      if (map.current && landmark.longitude && landmark.latitude) {
+        const temp = new mapboxgl.Marker(markerOptions)
+          .setLngLat([landmark.longitude,landmark.latitude])
+          .setPopup(new mapboxgl.Popup({ offset: 25}).setText(landmark.title))
+          .addTo(map.current)
+          //@ts-ignore
+          .addClassName('background-icon')
+        temp.getElement().style.backgroundImage = `url('${landmark.icon}')`
+        tempArray.push(temp)
+      }
     })
     setCurrentLandmarks(tempArray)
   }
@@ -92,7 +93,7 @@ const PopularPinmaps = () => {
             <ul className="position-absolute">
               { loading ? 
               <li>First server start. Might take long...</li> :
-              popularMaps.map((map: any, index: any) => {
+              popularMaps.map((map, index) => {
                 return(
                   <li ref={addMapRef} onClick={() => {
                     selectMap(index)
@@ -104,11 +105,12 @@ const PopularPinmaps = () => {
                     <div className="title-author">
                       <h3>{map.title}</h3>
                       <div className="tags">
-                        {map.tags.map((tag: any, index: any) => {
+                        {map.tags ? 
+                        map.tags.map((tag, index) => {
                           return(
                             <p key={index}>#{tag}</p>
                           )
-                        })}
+                        }) : <></>}
                       </div>
                       <p className="author">by {map.author}</p>
                     </div>

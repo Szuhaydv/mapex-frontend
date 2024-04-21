@@ -67,13 +67,13 @@ const MyMaps = (props: MyMapsProps) => {
     }
     setMyCurrentLandmarks([])
     const tempArray: mapboxgl.Marker[] = []
-    const markerOptions: mapboxgl.MarkerOptions = {}
+    const markerOptions: any = {}
     if (myMaps[mapNumber].subscription === 'admin') {
-      markerOptions.scale = 0
+      markerOptions.scale = "0"
     } else {
       markerOptions.offset = [10.5,-10]
       markerOptions.color = myMaps[mapNumber].markerColor
-      markerOptions.scale = 0
+      markerOptions.scale = "1"
     }
 
     myMaps[mapNumber].landmarks.forEach((landmark: LandmarkInterface) => {

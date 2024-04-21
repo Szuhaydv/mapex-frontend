@@ -181,6 +181,7 @@ const MyMaps = (props: MyMapsProps) => {
   }
   
   const handleMapEdit = () => {
+    console.log(selectedMyMap)
     if (selectedMyMap != -1) {
       if (myCurrentLandmarks.length != 0) {
         myCurrentLandmarks.forEach((landmark: mapboxgl.Marker) => {

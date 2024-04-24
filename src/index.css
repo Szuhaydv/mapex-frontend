@@ -132,7 +132,7 @@ nav {
 }
 .slider-control button {
   width: 10%;
-  border-radius: 8px;
+  border-radius: 1vw;
   background-color: #89CFF0;
 }
 .slider-control button:hover {

@@ -602,6 +602,7 @@ h3 {
   position: absolute;
   left: 80%;
   top: 93%;
+  padding: 0.25vw 0.5vw;
 }
 
 .pricing {

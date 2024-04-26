@@ -581,6 +581,7 @@ h3 {
 .text-input {
   max-height: 24%;
   min-height: 10%;
+  padding-top: 0.7vw
 }
 
 .email svg {

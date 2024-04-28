@@ -75,55 +75,55 @@ const Blog = () => {
               <li style={{left: '0%'}} ref={addToPosts} className="first-li">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 1</h3>
+                  <h3>Sample Post 1</h3>
                 </div>
               </li>
               <li style={{left: '39%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 2</h3>
+                  <h3>Sample Post 2</h3>
                 </div>
               </li>
               <li style={{left: '70%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 3</h3>
+                  <h3>Sample Post 3</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 4</h3>
+                  <h3>Sample Post 4</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 5</h3>
+                  <h3>Sample Post 5</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 6</h3>
+                  <h3>Sample Post 6</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 7</h3>
+                  <h3>Sample Post 7</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 8</h3>
+                  <h3>Sample Post 8</h3>
                 </div>
               </li>
               <li style={{left: '101%'}} ref={addToPosts}>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/The_Leaning_Tower_of_Pisa_SB.jpeg/1200px-The_Leaning_Tower_of_Pisa_SB.jpeg" alt="" />
                 <div className="post-title">
-                  <h3>Leaning Tower 9</h3>
+                  <h3>Sample Post 9</h3>
                 </div>
               </li>
             </ul>

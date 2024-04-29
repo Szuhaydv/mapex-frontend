@@ -215,6 +215,7 @@ h3 {
 }
 .hero-text button {
   font-size: 1.618rem;
+  box-shadow: 3px 5px 6px 3px rgba(0, 0, 0, 0.42);
 }
 .black-line {
   height: 10%;

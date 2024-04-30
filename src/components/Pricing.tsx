@@ -41,15 +41,19 @@ const Pricing = () => {
                 <div className="pros">
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
-                        3 maps per week
+                        10 maps per week
                     </div>
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
-                        1 custom icon
+                        5 custom icons
                     </div>
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
                         Use of hashtags
+                    </div>
+                    <div className="pro">
+                        <img src="./checkmark.svg" alt="" />
+                        Private maps
                     </div>
                 </div>
             </li>    
@@ -65,15 +69,15 @@ const Pricing = () => {
                 <div className="pros">
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
-                        3 maps per week
+                        Unlimited maps
                     </div>
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
-                        1 custom icon
+                        Unlimited custom icons
                     </div>
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
-                        Use of hashtags
+                        Private maps
                     </div>
                 </div>
             </li>     

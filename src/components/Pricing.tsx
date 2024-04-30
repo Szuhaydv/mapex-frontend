@@ -77,7 +77,15 @@ const Pricing = () => {
                     </div>
                     <div className="pro">
                         <img src="./checkmark.svg" alt="" />
+                        Use of hashtags
+                    </div>
+                    <div className="pro">
+                        <img src="./checkmark.svg" alt="" />
                         Private maps
+                    </div>
+                    <div className="pro">
+                        <img src="./checkmark.svg" alt="" />
+                        Priority feature request
                     </div>
                 </div>
             </li>     

@@ -1063,7 +1063,6 @@ h4 {
 }
 .selected-tag {
   background-color: rgb(255,8,27) !important;
-  border: 1px solid white;
   box-shadow: 3px 5px 6px 3px rgba(0, 0, 0, 0.42);
   color: white;
 }

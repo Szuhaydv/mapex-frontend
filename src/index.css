@@ -1077,6 +1077,9 @@ h4 {
 }
 .actual-h3 {
   font-weight: 700;
+  color: white;
+  background: #12100e;
+  border-radius: 0.5vw;
 }
 .slider-container img {
   width: 50%;

@@ -266,7 +266,7 @@ const MyMaps = (props: MyMapsProps) => {
         <div className="mymaps-sidebar-3"></div>
         <div className="user-info">
           <i className="bi bi-person-circle h3 ms-3 mt-1"></i>
-          <h3 className="d-flex align-items-center justify-content-center">{isLoggedIn ? username : <div><Link to='/login'>Sign in</Link> / <Link to='/register'>Register</Link></div>}</h3>
+          <h3 className="d-flex align-items-center justify-content-center">{isLoggedIn ? username : <span><Link to='/login'>Sign in</Link> / <Link to='/register'>Register</Link></span>}</h3>
         </div>
         <div className="map-titles">
           { isAddingMap ? 
